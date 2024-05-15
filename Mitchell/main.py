@@ -1,6 +1,6 @@
 import cv2 as cv
 
-cam = cv.VideoCapture(3)
+cam = cv.VideoCapture(0)
 
 while True:
     
