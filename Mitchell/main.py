@@ -1,10 +1,16 @@
-import cv2
+import cv2 as cv
 
+cam = cv.VideoCapture(3)
 
-cam=cv2.VideoCapture(0)
-img=cam.read()
+while True:
+    
+    ret, frame = cam.read()
+    if not ret:
+        break
 
-cv2.namedwindow("camera", cv2.CV_WINDOW_AUTOSIZE)
-cv2.imshow("camera",img)
-cv2.waitKey(0)
-cv2.destroywindow("camera")
+    cv.imshow('Video', frame)
+    
+    if cv.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cam.release()
