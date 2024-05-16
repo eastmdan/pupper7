@@ -45,9 +45,11 @@ class Camera_Calibration:
       print ('tvecs: ', self.tvecs)
       print ('Save the calibration data to calibration_savez.npz')
       np.savez('calibration_savez', mtx=self.mtx, dist=self.distort,rvecs=self.rvecs,tvecs=self.tvecs)
+      print('made it here 0')
 
    # ------------------------------------------------------------
    def undistort(self):
+      print('made it here 1')
       h, w = self.img.shape[:2]
       self.newcameramtx, self.roi=cv2.getOptimalNewCameraMatrix(self.mtx, self.distort, (w,h), 1, (w,h))
       # undistort
@@ -59,9 +61,11 @@ class Camera_Calibration:
       cv2.imshow('undistorted', undst)
       cv2.waitKey(1000)
       cv2.destroyAllWindows()
+      print('made it here 1.5')
 
    # ------------------------------------------------------------
    def remapping(self):
+      print('made it here 2')
       # undistort
       mapx, mapy = cv2.initUndistortRectifyMap(self.mtx, self.distort, None, self.newcameramtx, (self.w,self.h), 5)
       dstort = cv2.remap(self.img, mapx, mapy, cv2.INTER_LINEAR)
@@ -71,15 +75,18 @@ class Camera_Calibration:
       cv2.imshow('Remapping', dst)
       cv2.waitKey(0)
       cv2.destroyAllWindows()
+      print('made it here 3')
 
    # ------------------------------------------------------------
    def projection_Error(self):
+      print('made it here 4')
       mean_error = 0
       for i in range(len(self.objpoints)):
          imgpoints2, _ = cv2.projectPoints(self.objpoints[i], self.rvecs[i], self.tvecs[i], self.mtx, self.distort)
          error = cv2.norm(self.imgpoints[i], imgpoints2, cv2.NORM_L2)/len(imgpoints2)
          mean_error += error
       print( "total error: {}".format(mean_error/len(self.objpoints)) )
+      print('made it here 5')
 
 
 # ================ Camera Calibration =============
