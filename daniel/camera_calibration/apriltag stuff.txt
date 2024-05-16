@@ -1,1 +1,0 @@
-webcamoid - to see webcam output thro CLI (make sure Xming is open)
