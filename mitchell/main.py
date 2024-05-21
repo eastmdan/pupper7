@@ -14,3 +14,8 @@ while True:
         break
 
 cam.release()
+
+
+
+pip install --no-binary opencv-python opencv-python
+????
