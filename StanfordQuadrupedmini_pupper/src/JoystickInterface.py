@@ -5,6 +5,7 @@ from src.State import BehaviorState, State
 from src.Command import Command
 from src.Utilities import deadband, clipped_first_order_filter
 from MangDang.mini_pupper.shutdown import ShutDown
+from justin.run_square import run_square
 
 
 class JoystickInterface:
@@ -37,6 +38,9 @@ class JoystickInterface:
                 self.sutdown_time.request_shutdown()
             else:
                 self.sutdown_time.cancel_shutdown()
+
+            if msg["square"]:
+                run_square()
 
             # Check if requesting a state transition to trotting, or from trotting to resting
             gait_toggle = msg["R1"]
