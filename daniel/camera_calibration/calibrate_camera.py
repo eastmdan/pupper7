@@ -73,7 +73,7 @@ class Camera_Calibration:
       print('made it here 2.2')
       # crop the image
       x, y, w, h = self.roi
-      print('made it here 2.3')
+      print('made it here 2.3') 
       dst = dstort[y:y+h, x:x+w]
       print('made it here 2.4')
       cv2.imshow('Remapping', dst)
