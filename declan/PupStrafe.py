@@ -36,33 +36,159 @@ pwm_per_degree_second_half = total_pwm_change_second_half/total_degrees
 
 # Assume this is a move to the RIGHT
 
-def move_servo1(): # assume FR hip
+# FRH out -10
+# FLH in 10
+# BRH out -10
+# BLH in 10. Tilts all right
+
+# FRC in 90
+# FRH 0
+# FRC 45. Straighten front right
+
+# BLC in 90
+# BLH 0
+# BLC 45. Straighten back left
+
+# BRC in 90
+# BRH 0
+# BRC 45. Straighten back right
+
+# FLC in 90
+# FLH 0
+# FLC 45. Straighten front left.
+
+# In theory this should be everything needed
+
+
+# Initial HIP TILT
+def move_servo1(): # assume FRH
     global zero
-    what_degree = -30 # Tilt hip
-
+    what_degree = -10 # Tilt hip
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-
-# move_servo15 is just the name of the function. It does not move servo number 15
-def move_servo15():
-    global zero
-    what_degree = 90
-    # if what_degree <= 90:
-    #       degree_finder = zero + (pwm_per_degree_first_half * what_degree)
-    # else:
-    #      degree_finder = zero + (pwm_per_degree_second_half * what_degree)
-
-    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    degree_finder2 = int(-1*((one_eight - zero) / (180 - 0))*(what_degree) + one_eight)
-
-    #os.system("echo " + str(degree_finder2) + " > /sys/class/pwm/pwmchip0/pwm7/duty_cycle")
-    #os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm4/duty_cycle")
     time.sleep(1)
-    # os.system("echo 2000000 > /sys/class/pwm/pwmchip0/pwm12/duty_cycle") # 135 degrees = 2Mil. Suspected robot range is 45 to 135
-    # time.sleep(1)
-    # os.system("echo 1500000 > /sys/class/pwm/pwmchip0/pwm12/duty_cycle")
-
     print("done")
     print(degree_finder)
+
+def move_servo2(): # FLH
+    global zero
+    what_degree = 10
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+def move_servo3(): # BRH
+    global zero
+    what_degree = -10
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+def move_servo4(): # BLH
+    global zero
+    what_degree = 10
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+
+# INDIV LEG MOVES
+
+# FR stable
+def move_servo5(): # FRT
+    global zero
+    what_degree = -90
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo6(): # FRH
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo7(): # FRT
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+# BL Stable
+def move_servo8(): # BLT
+    global zero
+    what_degree = -90
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo9(): # BLH
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo10(): # BLT
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+# BR Stable
+def move_servo11(): # BRT
+    global zero
+    what_degree = -90
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo12(): # BRH
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo13(): # BRT
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+# FL Stable
+def move_servo14(): # BRT
+    global zero
+    what_degree = -90
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo15(): # BRH
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+def move_servo16(): # BRT
+    global zero
+    what_degree = 0
+    degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
+    time.sleep(1)
+    print("done")
+    print(degree_finder)
+
+
 
 def stand():
     
@@ -77,7 +203,39 @@ def main():
     os.system("sudo systemctl stop robot")
     stand()
     time.sleep(2)
+
+    move_servo1() # TILT
+    move_servo2()
+    move_servo3()
+    move_servo4()
+
+    move_servo5() # FR
+    time.sleep(0.3)
+    move_servo6()
+    time.sleep(0.3)
+    move_servo7()
+    time.sleep(0.5)
+
+    move_servo8() # BL
+    time.sleep(0.3)
+    move_servo9()
+    time.sleep(0.3)
+    move_servo10()
+    time.sleep(0.5)
+
+    move_servo11() # BR
+    time.sleep(0.3)
+    move_servo12()
+    time.sleep(0.3)
+    move_servo13()
+    time.sleep(0.5)
+
+    move_servo14() # FL
+    time.sleep(0.3)
     move_servo15()
+    time.sleep(0.3)
+    move_servo16()
+    time.sleep(0.5)
 
 if __name__ == "__main__":
     main()
