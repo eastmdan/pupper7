@@ -41,21 +41,21 @@ pwm_per_degree_second_half = total_pwm_change_second_half/total_degrees
 # BRH out -10
 # BLH in 10. Tilts all right
 
-# FRC in 90
+# FRT in 90
 # FRH 0
-# FRC 45. Straighten front right
+# FRT 45. Straighten front right
 
-# BLC in 90
+# BLT in 90
 # BLH 0
-# BLC 45. Straighten back left
+# BLT 45. Straighten back left
 
-# BRC in 90
+# BRT in 90
 # BRH 0
-# BRC 45. Straighten back right
+# BRT 45. Straighten back right
 
-# FLC in 90
+# FLT in 90
 # FLH 0
-# FLC 45. Straighten front left.
+# FLT 45. Straighten front left.
 
 # In theory this should be everything needed
 
