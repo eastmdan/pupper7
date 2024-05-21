@@ -59,6 +59,25 @@ pwm_per_degree_second_half = total_pwm_change_second_half/total_degrees
 
 # In theory this should be everything needed
 
+# Sets individual servo
+
+# for leg_index in range(4):
+#         for axis in range(3):
+#             if axis == 0:
+#                 set_point = 0
+#             elif axis == 1:
+#                 set_point = 45
+#             elif axis == 2:
+#                 set_point = -45
+#             hardware_interface.set_actuator_position(
+#                 degrees_to_radians(set_point),
+#                 axis,
+#                 leg_index,
+#             )
+#             time.sleep(1)
+
+
+
 
 # Initial HIP TILT
 def move_servo1(): # assume FRH
