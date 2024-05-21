@@ -43,15 +43,6 @@ def degrees_to_radians(input_array):
 
 # Testing a move
 
-# set point = -10 # Hip move
-
-# hardware_interface.set_actuator_position(
-#                 degrees_to_radians(set_point),
-#                 axis,
-#                 leg_index,
-#             )
-
-
 # full tilt
 hardware_interface.set_actuator_position(degrees_to_radians(-10), 0, 0) # FR 0. Servo deg swapped on side
 hardware_interface.set_actuator_position(degrees_to_radians(10), 0, 1) # FL 1
