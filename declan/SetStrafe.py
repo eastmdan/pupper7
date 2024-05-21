@@ -38,8 +38,9 @@ def degrees_to_radians(input_array):
 #             )
 #             time.sleep(1)
 
-# hardware_interface.set_actuator_position(position (in rads?), axis, leg_index)
-
+# hardware_interface.set_actuator_position(degrees_to_radians(position, axis (joint), leg_index)
+# leg index(0-3) FR, FL, BR, BL
+# axis(0-2) Hip, Thigh, Calf
 
 # Testing a move
 
@@ -48,5 +49,32 @@ hardware_interface.set_actuator_position(degrees_to_radians(-10), 0, 0) # FR 0. 
 hardware_interface.set_actuator_position(degrees_to_radians(10), 0, 1) # FL 1
 hardware_interface.set_actuator_position(degrees_to_radians(-10), 0, 2) # BR 2
 hardware_interface.set_actuator_position(degrees_to_radians(10), 0, 3) # BL 3
+time.sleep(1)
 
+# FR set
+hardware_interface.set_actuator_position(degrees_to_radians(90), 1, 0) # tuck in
+time.sleep(0.2)
+hardware_interface.set_actuator_position(degrees_to_radians(0), 0, 0) # tilt back
+hardware_interface.set_actuator_position(degrees_to_radians(45), 1, 0) # plant leg
+time.sleep(0.5)
 
+# BL set
+hardware_interface.set_actuator_position(degrees_to_radians(90), 1, 3) # tuck in
+time.sleep(0.2)
+hardware_interface.set_actuator_position(degrees_to_radians(0), 0, 3) # tilt back
+hardware_interface.set_actuator_position(degrees_to_radians(45), 1, 3) # plant leg
+time.sleep(0.5)
+
+# BR set
+hardware_interface.set_actuator_position(degrees_to_radians(90), 1, 2) # tuck in
+time.sleep(0.2)
+hardware_interface.set_actuator_position(degrees_to_radians(0), 0, 2) # tilt back
+hardware_interface.set_actuator_position(degrees_to_radians(45), 1, 2) # plant leg
+time.sleep(0.5)
+
+# FL set
+hardware_interface.set_actuator_position(degrees_to_radians(90), 1, 1) # tuck in
+time.sleep(0.2)
+hardware_interface.set_actuator_position(degrees_to_radians(0), 0, 1) # tilt back
+hardware_interface.set_actuator_position(degrees_to_radians(45), 1, 1) # plant leg
+time.sleep(0.5)
