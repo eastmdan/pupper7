@@ -68,12 +68,18 @@ class Camera_Calibration:
       print('made it here 2')
       # undistort
       mapx, mapy = cv2.initUndistortRectifyMap(self.mtx, self.distort, None, self.newcameramtx, (self.w,self.h), 5)
+      print('made it here 2.1')
       dstort = cv2.remap(self.img, mapx, mapy, cv2.INTER_LINEAR)
+      print('made it here 2.2')
       # crop the image
       x, y, w, h = self.roi
+      print('made it here 2.3')
       dst = dstort[y:y+h, x:x+w]
+      print('made it here 2.4')
       cv2.imshow('Remapping', dst)
+      print('made it here 2.5')
       cv2.waitKey(0)
+      print('made it here 2.6')
       cv2.destroyAllWindows()
       print('made it here 3')
 
