@@ -59,40 +59,51 @@ pwm_per_degree_second_half = total_pwm_change_second_half/total_degrees
 
 # In theory this should be everything needed
 
+# Sets individual servo
+
+# for leg_index in range(4):
+#         for axis in range(3):
+#             if axis == 0:
+#                 set_point = 0
+#             elif axis == 1:
+#                 set_point = 45
+#             elif axis == 2:
+#                 set_point = -45
+#             hardware_interface.set_actuator_position(
+#                 degrees_to_radians(set_point),
+#                 axis,
+#                 leg_index,
+#             )
+#             time.sleep(1)
+
+
+
 
 # Initial HIP TILT
 def move_servo1(): # assume FRH
     global zero
     what_degree = -10 # Tilt hip
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
-
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo2(): # FLH
     global zero
     what_degree = 10
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
-
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo3(): # BRH
     global zero
     what_degree = -10
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
-
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo4(): # BLH
     global zero
     what_degree = 10
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
-
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 
 # INDIV LEG MOVES
 
@@ -101,93 +112,80 @@ def move_servo5(): # FRT
     global zero
     what_degree = -90
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo6(): # FRH
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo7(): # FRT
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 
 # BL Stable
 def move_servo8(): # BLT
     global zero
     what_degree = -90
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo9(): # BLH
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo10(): # BLT
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 
 # BR Stable
 def move_servo11(): # BRT
     global zero
     what_degree = -90
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo12(): # BRH
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo13(): # BRT
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 
 # FL Stable
 def move_servo14(): # BRT
     global zero
     what_degree = -90
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo15(): # BRH
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 def move_servo16(): # BRT
     global zero
     what_degree = 0
     degree_finder = int(((one_eight - zero) / (180 - 0))*(what_degree) + zero)
-    time.sleep(1)
-    print("done")
-    print(degree_finder)
-
+    time.sleep(0.1)
+    os.system("echo " + str(degree_finder) + " > /sys/class/pwm/pwmchip0/pwm1/duty_cycle")
 
 
 def stand():
