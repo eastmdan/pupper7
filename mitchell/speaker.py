@@ -6,7 +6,7 @@ def play_audio(file, device_id):
     file_path = f'/home/ubuntu/pupper7/mitchell/sounds/{file}.mp3'
     
     # Open the audio file
-    audio = AudioSegment.from_file(file_path, format="mp4")
+    audio = AudioSegment.from_file(file_path, format="mp3")
 
     # Instantiate PyAudio
     p = pyaudio.PyAudio()
@@ -16,7 +16,7 @@ def play_audio(file, device_id):
                     channels=audio.channels,
                     rate=audio.frame_rate,
                     output=True,
-                    output_device_index=device_id)
+                    output_device_index=device_id)  # Ensure device_id is an integer
 
     # Read data in chunks
     chunk = 1024
@@ -36,7 +36,6 @@ def play_audio(file, device_id):
 
 # Example usage
 file = 'hello'
-## audio_file = f'/home/ubuntu/pupper7/mitchell/sounds/{file}.mp3'
-usb_device_id = 11  # Replace with your USB sound device index
+usb_device_id = 1  # Replace with your USB sound device index, ensure it's an integer
 
 play_audio(file, usb_device_id)

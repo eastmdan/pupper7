@@ -1,17 +1,11 @@
 import pyaudio
 
-def list_audio_devices():
-    p = pyaudio.PyAudio()
-    info = p.get_host_api_info_by_index(0)
-    numdevices = info.get('deviceCount')
-    for i in range(0, numdevices):
-        device_info = p.get_device_info_by_host_api_device_index(0, i)
-        print(f"Device {i}: {device_info.get('name')}, "
-              f"Input Channels: {device_info.get('maxInputChannels')}, "
-              f"Output Channels: {device_info.get('maxOutputChannels')}")
-    p.terminate()
+p = pyaudio.PyAudio()
+for i in range(p.get_device_count()):
+    info = p.get_device_info_by_index(i)
+    print(f"Device {i}: {info['name']} - Input Channels: {info['maxInputChannels']} - Output Channels: {info['maxOutputChannels']}")
+p.terminate()
 
-list_audio_devices()
 
 
 
