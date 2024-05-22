@@ -36,6 +36,6 @@ def play_audio(file, device_id):
 
 # Example usage
 file = 'hello'
-usb_device_id = 1  # Replace with your USB sound device index, ensure it's an integer
+usb_device_id = 2  # Replace with your USB sound device index, ensure it's an integer
 
 play_audio(file, usb_device_id)
