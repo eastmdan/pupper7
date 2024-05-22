@@ -37,6 +37,6 @@ def play_audio(file, device_id):
 # Example usage
 file = 'hello'
 ## audio_file = f'/home/ubuntu/pupper7/mitchell/sounds/{file}.mp3'
-usb_device_id = 11  # Replace with your USB sound device index
+usb_device_id = 1  # Replace with your USB sound device index
 
 play_audio(file, usb_device_id)
