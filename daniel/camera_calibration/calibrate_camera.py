@@ -78,7 +78,7 @@ class Camera_Calibration:
       print('made it here 2.4')
       cv2.imshow('Remapping', dst)
       print('made it here 2.5')
-      cv2.waitKey(0)
+      #cv2.waitKey(0)
       print('made it here 2.6')
       cv2.destroyAllWindows()
       print('made it here 3')
