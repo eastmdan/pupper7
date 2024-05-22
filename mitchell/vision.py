@@ -17,7 +17,7 @@ width, height = 640, 480
 
 # Audio
 file = 'hello'
-usb_device_id = 1  # Replace with your USB sound device index
+usb_device_id = 2  # Replace with your USB sound device index
 
 # Load the YOLO model
 model = YOLO(model_path)
