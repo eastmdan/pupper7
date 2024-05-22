@@ -16,7 +16,7 @@ def play_audio(file, device_id):
                     channels=audio.channels,
                     rate=audio.frame_rate,
                     output=True,
-                    output_device_index=device_id)
+                    output_device_index=f"/dev/video{device_id}")
 
     # Read data in chunks
     chunk = 1024
