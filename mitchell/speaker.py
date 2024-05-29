@@ -2,9 +2,11 @@ import pyaudio
 from pydub import AudioSegment
 import io
 
-def play_audio(file_path, device_index):
+def play_audio(file, device_id):
+    file_path = f'/home/ubuntu/pupper7/mitchell/sounds/{file}.mp3'
+    
     # Open the audio file
-    audio = AudioSegment.from_file(file_path, format="mp4")
+    audio = AudioSegment.from_file(file_path, format="mp3")
 
     # Instantiate PyAudio
     p = pyaudio.PyAudio()
@@ -14,7 +16,7 @@ def play_audio(file_path, device_index):
                     channels=audio.channels,
                     rate=audio.frame_rate,
                     output=True,
-                    output_device_index=device_index)
+                    output_device_index=device_id)  # Ensure device_id is an integer
 
     # Read data in chunks
     chunk = 1024
@@ -33,8 +35,7 @@ def play_audio(file_path, device_index):
     p.terminate()
 
 # Example usage
-file = 'birds'
-audio_file = f'/home/ubuntu/pupper7/mitchell/sounds/{file}.mp3'
-usb_device_index = 11  # Replace with your USB sound device index
+file = 'hello'
+usb_device_id = 2  # Replace with your USB sound device index, ensure it's an integer
 
-play_audio(audio_file, usb_device_index)
+play_audio(file, usb_device_id)
