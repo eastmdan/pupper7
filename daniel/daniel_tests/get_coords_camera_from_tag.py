@@ -38,7 +38,7 @@ def get_apriltag_coordinates(tagfinder_obj):
 tagfinder_obj = tag_finder.Detector(0.0535, 'test_tag_transform.json')
 found_tag = False
 
-for i in range(200):
+for i in range(500):
     X_coord, Y_coord, Z_coord, system_time = get_apriltag_coordinates(tagfinder_obj)
     #print("Cycle: ", X_coord, Y_coord, Z_coord, system_time)
 
