@@ -25,7 +25,7 @@ def get_apriltag_coordinates(tagfinder_obj):
         poses = tagfinder_obj.pose
         #print(" ================= Yaw:", degree[0], degree[1], degree[2])
         #print(" ============================ Pose:\n", tagfinder_obj.pose)
-        print("==================", poses[0][2], poses[1][2], poses[2][2])
+        #print("==================", poses[0][2], poses[1][2], poses[2][2])
 
         return X, Y, Z, round(time.time() * 1000)
 
