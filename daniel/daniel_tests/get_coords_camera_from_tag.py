@@ -22,8 +22,10 @@ def get_apriltag_coordinates(tagfinder_obj):
         X, Y, Z = tagfinder_obj.camera_X, tagfinder_obj.camera_Y, tagfinder_obj.camera_Z
 
         radian, degree = tagfinder_obj.get_Euler(tagfinder_obj.dt_results[0].pose_R)
-        print(" ================= Yaw:", degree[0], degree[1], degree[2])
-        print(" ============================ Pose:\n", tagfinder_obj.pose)
+        poses = tagfinder_obj.pose
+        #print(" ================= Yaw:", degree[0], degree[1], degree[2])
+        #print(" ============================ Pose:\n", tagfinder_obj.pose)
+        print(poses[0][0], poses[1][0], poses[2][0])
 
         return X, Y, Z, round(time.time() * 1000)
 
