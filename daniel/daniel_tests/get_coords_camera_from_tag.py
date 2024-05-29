@@ -12,7 +12,7 @@ def get_apriltag_coordinates(tagfinder_obj, draw_obj):
     tagfinder_obj.capture_Camera()
     if not tagfinder_obj.getPose():
         print("===== No tag found")
-        return 0
+        return 0, 0, 0, round(time.time() * 1000)
     #     raise SystemExit("!!! Error: no tag found")
 
     # draw_obj.img = tagfinder_obj.img
@@ -50,10 +50,12 @@ tagfinder_obj = tag_finder.Detector(0.0535, 'test_tag_transform.json')
 draw_obj = drawing.Draw(tagfinder_obj)
 
 #keypress = ord('*')  # arbitrary
-
 #while keypress != ord('a'):
 
-X_coord, Y_coord, Z_coord, system_time = get_apriltag_coordinates(tagfinder_obj, draw_obj)
+for i in range(500):
+    X_coord, Y_coord, Z_coord, system_time = get_apriltag_coordinates(tagfinder_obj, draw_obj)
+    print("Cycle: ", X_coord, Y_coord, Z_coord, system_time)
+
 tagfinder_obj.release_Camera()
-print("Final: ", X_coord, Y_coord, Z_coord, system_time)
+print("end")
 #tagfinder_obj.destroyAllWindows()
