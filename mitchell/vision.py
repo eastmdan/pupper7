@@ -2,26 +2,34 @@ import cv2 as cv
 import numpy as np
 from ultralytics import YOLO
 from speaker import play_audio
+from findDevice import findSpeakerDevice
+#from findDevice import findCameraDevice
 
-# Settings
+
+
+##########################################################
+######################## Settings ########################
+##########################################################
+
+# Object detection settings
 model_path = 'yolov8n.pt'
-frames_to_skip = 10
 ids_to_track = [0]
 
-# Init value stores
-frame_count = 0
-
 # Camera settings
-cam_device_id = 0
 width, height = 640, 480
+frames_to_skip = 5
+hysteresis = 0.35 # width of center of screen to mark position as center
 
-# Audio
-file = 'hello'
-usb_device_id = 2  # Replace with your USB sound device index
 
-# Load the YOLO model
-model = YOLO(model_path)
-print('YOLO model loaded')
+# Hardware Ids
+cam_device_id = 0
+usb_device_id = 2  
+
+
+
+##########################################################
+######################## Functions #######################
+##########################################################
 
 # Function to find the center of bounding boxes
 def find_midpoint(bbox):
@@ -41,7 +49,7 @@ def find_midpoint(bbox):
 def rotate_frame(frame):
     return cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
 
-# Function to run the YOLO model and play audio if a person is in the center
+# Function to run the YOLO model and play audio if object is in the center
 def analyze_frame(frame, model, frame_count):
     frame = rotate_frame(frame)
     
@@ -52,28 +60,56 @@ def analyze_frame(frame, model, frame_count):
             if i in ids_to_track:
                 midpoint = find_midpoint(bbox)
                 if midpoint:
-                    if midpoint[0] > ((width / 2) * 1.25):
+                    if midpoint[0] > ((width / 2) * (1 + hysteresis/2)):
                         print("On right")
-                    elif midpoint[0] < ((width / 2) * 0.75):
+                    elif midpoint[0] < ((width / 2) * (1-hysteresis/2)):
                         print("On Left")
                     else:
                         print("In Center")
                         play_audio("hello", usb_device_id)
 
+# Main function to run camera
+def startObjectDetection(model):
+    # Init value stores
+    frame_count = 0
+    try:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            frame_count += 1
+        
+            analyze_frame(frame, model, frame_count)
+        
+            if cv.waitKey(1) & 0xFF == ord('q'):  # Press Q to exit
+                break
+    finally:
+        cap.release()
+
+
+
+##########################################################
+##################### Initialization #####################
+##########################################################
+
+# List hardware devices
+findSpeakerDevice()
+## findCameraDevice
+
+# Load the YOLO model
+model = YOLO(model_path)
+print('YOLO model loaded')
+
 # Open the camera
 cap = cv.VideoCapture(f"/dev/video{cam_device_id}")
+print("Camera Initilized")
 
-# Main loop
-try:
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-        frame_count += 1
-        
-        analyze_frame(frame, model, frame_count)
-        
-        if cv.waitKey(1) & 0xFF == ord('q'):  # Press Q to exit
-            break
-finally:
-    cap.release()
+
+
+##########################################################
+######################## Main loop #######################
+##########################################################
+
+if __name__ == "__main__":
+    print("Camera Started")
+    startObjectDetection(model)
