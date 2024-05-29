@@ -21,13 +21,13 @@ def get_apriltag_coordinates(tagfinder_obj):
         tagfinder_obj.getCamera_Pose(result)
         X, Y, Z = tagfinder_obj.camera_X, tagfinder_obj.camera_Y, tagfinder_obj.camera_Z
 
-        return X, Y, Z, round(time.time() * 1000)
-
         X, Y, Z = translate[0][0], translate[1][0], translate[2][0]
         print(" ==== Translation: (", X, ",", Y, ",", Z, ")")
         radian, degree = tagfinder_obj.get_Euler(tagfinder_obj.dt_results[0].pose_R)
         print(" ==== Euler degree (Yaw,Pitch,Roll):", degree)
         print(" ==== Pose:\n", tagfinder_obj.pose)
+
+        return X, Y, Z, round(time.time() * 1000)
 
         #   tagfinder_obj.get_Destination((-47,20))
 
@@ -40,7 +40,7 @@ found_tag = False
 
 for i in range(200):
     X_coord, Y_coord, Z_coord, system_time = get_apriltag_coordinates(tagfinder_obj)
-    print("Cycle: ", X_coord, Y_coord, Z_coord, system_time)
+    #print("Cycle: ", X_coord, Y_coord, Z_coord, system_time)
 
 tagfinder_obj.release_Camera()
 print("end")
