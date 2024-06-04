@@ -3,7 +3,6 @@ import time
 
 
 drive_pub = Publisher(8830)
-arm_pub = Publisher(8410)
 
 
 forward  = - 50
