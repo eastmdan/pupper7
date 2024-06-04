@@ -95,6 +95,7 @@ def stop():
 
 def moveForward(duration):
 
+    time.sleep(0.5)
     trot() # start trotting
 
     print('Move Forward')
@@ -123,7 +124,8 @@ def moveForward(duration):
 
 
 def rotate(duration):
-
+    
+    time.sleep(0.5)
     trot() # start trotting
 
     print('Rotate')
@@ -152,10 +154,10 @@ def rotate(duration):
 
 
 
-time.sleep(1)
+time.sleep(0.5)
 init()
-time.sleep(1)
+time.sleep(0.5)
 activate()
-time.sleep(1)
+time.sleep(0.5)
 
 moveForward(5)
