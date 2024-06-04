@@ -16,7 +16,7 @@ fast = 500
 
 max_speed = (fast+slow)/2 + l_trigger*(fast-slow)/2
 out = {'f':(max_speed*forward),'t':-150*twist}
-#drive_pub.send(out)
+drive_pub.send(out)
 print(out)
 
 
@@ -83,7 +83,7 @@ def move():
             "ly": -1, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 1, 
+            "message_rate": 20, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0}) 
@@ -107,10 +107,10 @@ def stop():
             "dpadx": 0}) 
 
 
-time.sleep(1)
+""" time.sleep(1)
 init()
 time.sleep(1)
-activate()
+activate() """
 time.sleep(1)
 trot()
 time.sleep(1)
