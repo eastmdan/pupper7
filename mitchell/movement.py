@@ -40,4 +40,4 @@ while True:
             drive_pub.send(out)
             print(out)
         else:
-            drive_pub.send({'f':0,'t':0}
+            drive_pub.send({'f':0,'t':0})
