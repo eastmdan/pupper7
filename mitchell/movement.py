@@ -17,7 +17,7 @@ fast = 500
 
 max_speed = (fast+slow)/2 + l_trigger*(fast-slow)/2
 out = {'f':(max_speed*forward),'t':-150*twist}
-drive_pub.send(out)
+#drive_pub.send(out)
 print(out)
 
 
