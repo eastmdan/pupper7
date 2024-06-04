@@ -90,7 +90,7 @@ def move():
     
     
 def stop():
-    print('trot')
+    print('stop')
     drive_pub.send({"L1": 0, 
             "R1": 1, 
             "x": 0, 
