@@ -85,7 +85,7 @@ def move():
             "rx": 0, 
             "message_rate": 20, 
             "ry": 0, 
-            "dpady": -1, 
+            "dpady": 1, 
             "dpadx": 0}) 
     
     
