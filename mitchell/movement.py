@@ -1,15 +1,12 @@
 from UDPComms import Publisher
 
-import time
-from enum import Enum
-
 drive_pub = Publisher(8830)
 arm_pub = Publisher(8410)
 
 
 def activate():
     drive_pub.send({"L1": 0, 
-            "R1": 0, 
+            "R1": 1, 
             "x": 0, 
             "circle": 0, 
             "triangle": 0, 
