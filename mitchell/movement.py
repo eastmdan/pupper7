@@ -153,8 +153,8 @@ def rotate(duration):
 
 """ time.sleep(1)
 init()
-time.sleep(1)
+time.sleep(1)"""
 activate()
-time.sleep(1) """
+time.sleep(1)
 
 moveForward(3)
