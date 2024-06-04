@@ -98,7 +98,7 @@ def moveForward(duration):
     time.sleep(0.5)
     trot() # start trotting
 
-    print('Move Forward')
+    print('Moving Forward')
 
     start_time = time.time() # start time keep
 
