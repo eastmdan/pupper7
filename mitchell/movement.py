@@ -5,19 +5,11 @@ import time
 drive_pub = Publisher(8830)
 
 
-forward  = - 50
-twist = 0
+# Define the stopping time (in seconds)
+t_stop = 10  # This means the loop will run for 10 seconds
 
-l_trigger = 50
-
-
-slow = 150
-fast = 500
-
-max_speed = (fast+slow)/2 + l_trigger*(fast-slow)/2
-out = {'f':(max_speed*forward),'t':-150*twist}
-#drive_pub.send(out)
-print(out)
+# Record the start time
+start_time = time.time()
 
 
 def init():
@@ -80,12 +72,12 @@ def move():
             "triangle": 0, 
             "L2": 0, 
             "R2": 0, 
-            "ly": 0, 
+            "ly": -1, 
             "lx": 0, 
             "rx": 0, 
             "message_rate": 20, 
             "ry": 0, 
-            "dpady": 1, 
+            "dpady": 0, 
             "dpadx": 0}) 
     
     
@@ -114,6 +106,11 @@ activate()
 time.sleep(1)
 trot()
 time.sleep(1)
-move()
-time.sleep(5)
+
+# Loop until the current time minus the start time is less than t_stop
+while (time.time() - start_time) < t_stop:
+    move()  # Call the move function
+    time.sleep(0.5)  # Wait for 1 second before the next iteration
+    
+time.sleep(1)
 stop()
