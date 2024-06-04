@@ -114,7 +114,7 @@ def main(camera_index=0):
             cv2.circle(frame, (int(x), int(y)), 5, (0, 0, 255), -1)  # Red dot
 
         # Display the frame with detections and dot
-        cv2.imshow('AprilTags Detection', frame)
+        #cv2.imshow('AprilTags Detection', frame)
 
         # Exit the loop when 'q' is pressed
         if cv2.waitKey(1) & 0xFF == ord('q'):
