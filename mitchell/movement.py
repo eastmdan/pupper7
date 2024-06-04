@@ -107,7 +107,7 @@ def moveForward(duration):
     time.sleep(0.5)
     trot() # start trotting
 
-    time.sleep(1)
+    time.sleep(0.3)
 
     print('Moving Forward')
 
@@ -133,7 +133,6 @@ def moveForward(duration):
         }) 
         time.sleep(0.3)
 
-    time.sleep(1)
     stop() # Stop trotting
 
 
@@ -166,7 +165,6 @@ def rotate(duration):
         }) 
         time.sleep(0.3)
     
-    time.sleep(1)
     stop() # Stop trotting
 
 
