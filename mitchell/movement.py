@@ -124,7 +124,11 @@ def rotate(duration):
 
     print('Rotate')
 
-    drive_pub.send({
+    start_time = time.time() # start time keep
+
+    # Loop until duration has passed
+    while (time.time() - start_time) < duration:
+        drive_pub.send({
             "L1": 0, 
             "R1": 0, 
             "x": 0, 
@@ -140,12 +144,6 @@ def rotate(duration):
             "dpady": 0, 
             "dpadx": 0
         }) 
-
-    start_time = time.time() # start time keep
-
-    # Loop until duration has passed
-    while (time.time() - start_time) < duration:
-        move()
         time.sleep(0.3)
     
     time.sleep(0.3)
@@ -159,4 +157,4 @@ time.sleep(1)
 activate()
 time.sleep(1)
 
-rotate(3)
+moveForward(3)
