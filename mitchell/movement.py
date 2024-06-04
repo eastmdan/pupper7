@@ -17,7 +17,7 @@ while True:
         slow = 150
         fast = 500
 
-        max_speed = (fast+slow)/2 + l_trigger*(fast-slow)/2
+        max_speed = (fast+slow)/2 + 1*(fast-slow)/2
 
         out = {'f':(max_speed*forward),'t':-150*twist}
         drive_pub.send(out)
