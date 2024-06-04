@@ -80,12 +80,12 @@ def move():
             "triangle": 0, 
             "L2": 0, 
             "R2": 0, 
-            "ly": -1, 
+            "ly": 0, 
             "lx": 0, 
             "rx": 0, 
             "message_rate": 20, 
             "ry": 0, 
-            "dpady": 0, 
+            "dpady": -1, 
             "dpadx": 0}) 
     
     
