@@ -110,7 +110,7 @@ time.sleep(1)
 # Loop until the current time minus the start time is less than t_stop
 while (time.time() - start_time) < t_stop:
     move()  # Call the move function
-    time.sleep(0.5)  # Wait for 1 second before the next iteration
+    time.sleep(0.35)  # Wait for 1 second before the next iteration
     
 time.sleep(1)
 stop()
