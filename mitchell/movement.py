@@ -97,6 +97,8 @@ def moveForward(duration):
 
     trot() # start trotting
 
+    print('Move Forward')
+
     start_time = time.time() # start time keep
 
     # Loop until duration has passed
@@ -123,6 +125,8 @@ def moveForward(duration):
 def rotate(duration):
 
     trot() # start trotting
+
+    print('Rotate')
 
     start_time = time.time() # start time keep
 
