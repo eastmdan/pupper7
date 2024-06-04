@@ -4,7 +4,6 @@ import time
 
 drive_pub = Publisher(8830)
 
-t_stop = 10 
 
 
 def init():
@@ -74,8 +73,7 @@ def move():
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0}) 
-    
-    
+     
 def stop():
     print('stop')
     drive_pub.send({"L1": 0, 
@@ -92,6 +90,62 @@ def stop():
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0}) 
+    
+
+
+def moveForward(duration):
+
+    trot() # start trotting
+
+    start_time = time.time() # start time keep
+
+    # Loop until duration has passed
+    while (time.time() - start_time) < duration:
+        drive_pub.send({"L1": 0, 
+            "R1": 0, 
+            "x": 0, 
+            "circle": 0, 
+            "triangle": 0, 
+            "L2": 0, 
+            "R2": 0, 
+            "ly": 1, 
+            "lx": 0, 
+            "rx": 0, 
+            "message_rate": 60, 
+            "ry": 0, 
+            "dpady": 0, 
+            "dpadx": 0}) 
+        time.sleep(0.3)
+
+    stop() # Stop trotting
+
+
+def rotate(duration):
+
+    trot() # start trotting
+
+    start_time = time.time() # start time keep
+
+    # Loop until duration has passed
+    while (time.time() - start_time) < duration:
+        drive_pub.send({"L1": 0, 
+            "R1": 0, 
+            "x": 0, 
+            "circle": 0, 
+            "triangle": 0, 
+            "L2": 0, 
+            "R2": 0, 
+            "ly": 0, 
+            "lx": 0, 
+            "rx": 1, 
+            "message_rate": 60, 
+            "ry": 0, 
+            "dpady": 0, 
+            "dpadx": 0}) 
+        time.sleep(0.3)
+    
+    stop() # Stop trotting
+
 
 
 time.sleep(1)
@@ -99,16 +153,5 @@ init()
 time.sleep(1)
 activate()
 time.sleep(1)
-trot()
-time.sleep(1)
 
-# Record the start time
-start_time = time.time()
-
-# Loop until the current time minus the start time is less than t_stop
-while (time.time() - start_time) < t_stop:
-    move()  # Call the move function
-    time.sleep(0.3)  # Wait for 1 second before the next iteration
-    
-time.sleep(1)
-stop()
+moveForward(5)
