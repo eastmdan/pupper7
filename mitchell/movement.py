@@ -7,6 +7,7 @@ arm_pub = Publisher(8410)
 
 
 def init():
+    print('init')
     drive_pub.send({"L1": 0, 
             "R1": 0, 
             "x": 0, 
@@ -23,6 +24,7 @@ def init():
             "dpadx": 0})
 
 def activate():
+    print('activate')
     drive_pub.send({"L1": 1, 
             "R1": 0, 
             "x": 0, 
@@ -39,6 +41,7 @@ def activate():
             "dpadx": 0})
 
 def trot():
+    print('trot')
     drive_pub.send({"L1": 0, 
             "R1": 1, 
             "x": 0, 
@@ -55,6 +58,7 @@ def trot():
             "dpadx": 0})  
 
 def move():
+    print('move')
     drive_pub.send({"L1": 0, 
             "R1": 0, 
             "x": 0, 
