@@ -1,1 +1,3 @@
 webcamoid - to see webcam output thro CLI (make sure Xming is open)
+
+need coordinates, angle from apriltag, computer time at instant of image capture
