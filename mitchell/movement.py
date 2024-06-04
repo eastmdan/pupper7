@@ -83,7 +83,7 @@ def move():
             "ly": -1, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 100, 
+            "message_rate": 1, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0}) 
