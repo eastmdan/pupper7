@@ -55,7 +55,7 @@ def move():
             "dpadx": 0})   
 
 activate()
-time.sleep(500)
+time.sleep(5000)
 trot()
-time.sleep(500)
+time.sleep(5000)
 move()
