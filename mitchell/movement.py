@@ -19,7 +19,7 @@ while True:
 
         max_speed = (fast+slow)/2 + 1*(fast-slow)/2
 
-        out = {'f':(max_speed*forward),'t':-150*twist}
+        out = {'f':(max_speed*1),'t':-150*1}
         drive_pub.send(out)
             
         drive_pub.send({'f':0,'t':0})
