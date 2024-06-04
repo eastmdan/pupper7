@@ -24,7 +24,7 @@ def init():
             "ly": 0, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 20, 
+            "message_rate": 60, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0})
@@ -41,7 +41,7 @@ def activate():
             "ly": 0, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 20, 
+            "message_rate": 60, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0})
@@ -58,7 +58,7 @@ def trot():
             "ly": 0, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 20, 
+            "message_rate": 60, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0})  
@@ -75,7 +75,7 @@ def move():
             "ly": 1, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 20, 
+            "message_rate": 60, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0}) 
@@ -93,7 +93,7 @@ def stop():
             "ly": 0, 
             "lx": 0, 
             "rx": 0, 
-            "message_rate": 20, 
+            "message_rate": 60, 
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0}) 
