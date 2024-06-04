@@ -136,11 +136,11 @@ def rotate(duration):
             "triangle": 0, 
             "L2": 0, 
             "R2": 0, 
-            "ly": 0, 
+            "ly": 1, 
             "lx": 0, 
-            "rx": 1, 
+            "rx": 0, 
             "message_rate": 60, 
-            "ry": 0, 
+            "ry": -1, 
             "dpady": 0, 
             "dpadx": 0
         }) 
