@@ -48,7 +48,7 @@ def trot():
     drive_pub.send({
 
         "R1": 1, 
-
+        "message_rate": 60, 
     })  
 
 def move():
