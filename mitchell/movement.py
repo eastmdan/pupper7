@@ -157,6 +157,4 @@ time.sleep(1)
 activate()
 time.sleep(1)
 
-moveForward(3)
-
 rotate(3)
