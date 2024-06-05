@@ -67,7 +67,7 @@ def rotate_robot(error_x, error_y):
 
     if abs(error_x) > threshold or abs(error_y) > threshold:
         # If either error is above the threshold, send movement command
-        rotate(-twist_x/2,twist_y/2,1)
+        rotate(twist_x/2,twist_y/2,1)
         
         """ drive_pub.send({
             "L1": 0,

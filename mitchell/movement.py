@@ -134,7 +134,7 @@ def rotate(forward, lateral, duration):
             "R2": 0,
             "ly": 0,
             "lx": 0,
-            "rx": lateral*rx,
+            "rx": -lateral*rx,
             "message_rate": 60,
             "ry": forward*ry,
             "dpady": 0,
@@ -143,5 +143,5 @@ def rotate(forward, lateral, duration):
 
         time.sleep(0.3) # 0.016 based on message rate
 
-    time.sleep(0.3)
-    trot()  # Stop trotting
+
+activate()
