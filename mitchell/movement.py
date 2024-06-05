@@ -107,11 +107,8 @@ def move(forward, lateral, duration):
 
 
 def rotate(forward, lateral, duration):
-    time.sleep(0.5)
-    trot()  # Start trotting
-    time.sleep(0.3)
 
-    ramp_duration = 3  # time to accel to full speed
+    ramp_duration = 1  # time to accel to full speed
     start_time = time.time()
 
     # Loop until duration has passed
