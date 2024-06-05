@@ -1,6 +1,11 @@
 import time
 from UDPComms import Publisher
-from movement import init,activate,trot
+from movement import init,activate,trot,clear
+
+
+refresh = 0.3 # Time to sleep inbetween individual movements
+move_speed = 0.3 # scaler to change how quickly the robot performs actions
+
 
 
 # Set the resolution
@@ -14,11 +19,10 @@ cy = height/2  # Principal point y-coordinate in pixels
 # UDP Publisher
 drive_pub = Publisher(8830)
 
-refresh = 0.016
 
 def move_robot(error_x, error_y, z_distance, duration):
     
-    scaling_factor = 0.4 #scaling of movement speeds
+    scaling_factor = move_speed #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
     lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
@@ -60,29 +64,15 @@ def move_robot(error_x, error_y, z_distance, duration):
                 "dpadx": 0
             })
 
-        time.sleep(refresh)  # Sleep time based on message rate 0.016
-    drive_pub.send({
-                "L1": 0, 
-                "R1": 0, 
-                "x": 0, 
-                "circle": 0, 
-                "triangle": 0, 
-                "L2": 0, 
-                "R2": 0, 
-                "ly": 0, 
-                "lx": 0, 
-                "rx": 0, 
-                "message_rate": 60, 
-                "ry": 0, 
-                "dpady": 0, 
-                "dpadx": 0
-            })
+        time.sleep(refresh)
+        
+    clear()
     
     
 
 def twist_robot(error_x, error_y, z_distance, duration):
     
-    scaling_factor = 0.35 #scaling of movement speeds
+    scaling_factor = move_speed #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
     lateral_error_x_normalized = error_x / cx  # Normalized to -1 to 1
@@ -120,35 +110,20 @@ def twist_robot(error_x, error_y, z_distance, duration):
                 "lx": 0, 
                 "rx": lateral * rx, 
                 "message_rate": 60, 
-                "ry": forward * ry, 
-                "dpady": 0, 
-                "dpadx": 0
-            })
-
-        time.sleep(refresh)  # Sleep time based on message rate 0.016
-        
-    drive_pub.send({
-                "L1": 0, 
-                "R1": 0, 
-                "x": 0, 
-                "circle": 0, 
-                "triangle": 0, 
-                "L2": 0, 
-                "R2": 0, 
-                "ly": 0, 
-                "lx": 0, 
-                "rx": 0, 
-                "message_rate": 60, 
                 "ry": 0, 
                 "dpady": 0, 
                 "dpadx": 0
             })
+
+        time.sleep(refresh)
+        
+    clear()
 
         
 
 def rotate_robot(error_x, error_y, z_distance, duration):
     
-    scaling_factor = 0.35 #scaling of movement speeds
+    scaling_factor = move_speed #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
     lateral_error_x_normalized = error_x / cx  # Normalized to -1 to 1
@@ -190,21 +165,6 @@ def rotate_robot(error_x, error_y, z_distance, duration):
                 "dpadx": 0
             })
 
-        time.sleep(refresh)  # Sleep time based on message rate 0.016
+        time.sleep(refresh)  
     
-    drive_pub.send({
-                "L1": 0, 
-                "R1": 0, 
-                "x": 0, 
-                "circle": 0, 
-                "triangle": 0, 
-                "L2": 0, 
-                "R2": 0, 
-                "ly": 0, 
-                "lx": 0, 
-                "rx": 0, 
-                "message_rate": 60, 
-                "ry": 0, 
-                "dpady": 0, 
-                "dpadx": 0
-            })
+    clear()
