@@ -13,10 +13,10 @@ from MangDang.mini_pupper.display import Display
 from StanfordQuadrupedmini_pupper.src.MovementScheme import MovementScheme
 #from StanfordQuadrupedmini_pupper.src.danceSample import MovementLib
 
-def main(use_imu=False):
+def main(use_imu=False): 
     """Main program
     """
-    
+    #create a dance library using level1 movement code
     Mossy_Move = MovementGroups()
     Mossy_Move.look_right()
     Mossy_Move.look_upperright()
@@ -83,7 +83,7 @@ def main(use_imu=False):
         #print("Robot activated.")
         #joystick_interface.set_color(config.ps4_color)
 
-        
+
         while True:
             now = time.time()
             if now - last_loop < config.dt:
