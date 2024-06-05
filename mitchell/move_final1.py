@@ -22,7 +22,7 @@ def move_robot(error_x, error_y, z_distance, duration):
     
     # start trotting
     trot()
-    time.sleep(0.3)
+    time.sleep(0.016)
 
     # Calculate normalized forward and lateral movements
     lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
@@ -64,14 +64,7 @@ def move_robot(error_x, error_y, z_distance, duration):
                 "dpadx": 0
             })
 
-        time.sleep(0.35)  # Sleep time based on message rate 0.016
+        time.sleep(0.016)  # Sleep time based on message rate 0.016
     
     # stop trotting so camera can take another measurement
     trot()
-
-
-init()
-time.sleep(0.5)
-activate()
-time.sleep(0.5)
-move_robot(1,0,5,5)
