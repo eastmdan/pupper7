@@ -9,12 +9,14 @@ import time
 # Camera parameters (these values should be calibrated for your specific camera)
 fx = 600.0  # Focal length in pixels
 fy = 600.0  # Focal length in pixels
-cx = 320.0  # Principal point x-coordinate in pixels
-cy = 180.0  # Principal point y-coordinate in pixels
+height = 360
+width = 640
+cy = height/2
+cx = width/2
 camera_params = (fx, fy, cx, cy)
 
-refresh_rate = 10.
-threshold = 10
+refresh_rate = 15.
+threshold = 5
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
@@ -82,8 +84,8 @@ def main(camera_index=0):
     cap = cv2.VideoCapture(camera_index)
 
     # Set the resolution
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
     #cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
     #cap.set(cv2.CAP_PROP_FOCUS, 0) 
