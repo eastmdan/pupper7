@@ -126,7 +126,7 @@ def main():
 
         if z > 0.5:
             if abs(error_x) > 50:
-                twist_robot(error_x,error_y,z,3)
+                twist_robot(error_x,error_y,z,2)
             else:
                 move_robot(error_x,error_y,z,3)
         else:

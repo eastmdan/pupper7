@@ -19,8 +19,10 @@ def move_robot(error_x, error_y, z_distance, duration):
     
     scaling_factor = 0.4 #scaling of movement speeds
     
+    time.sleep(0.1)
     # start trotting
     trot()
+    time.sleep(0.1)
 
     # Calculate normalized forward and lateral movements
     lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
@@ -64,13 +66,20 @@ def move_robot(error_x, error_y, z_distance, duration):
 
         time.sleep(0.016)  # Sleep time based on message rate 0.016
     
+    time.sleep(0.1)
     # stop trotting so camera can take another measurement
     trot()
+    time.sleep(0.1)
     
 
 def twist_robot(error_x, error_y, z_distance, duration):
     
-    scaling_factor = 1 #scaling of movement speeds
+    time.sleep(0.1)
+    # start trotting
+    trot()
+    time.sleep(0.1)
+    
+    scaling_factor = 0.35 #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
     lateral_error_x_normalized = error_x / cx  # Normalized to -1 to 1
@@ -80,8 +89,6 @@ def twist_robot(error_x, error_y, z_distance, duration):
     lateral = max(-1, min(1, scaling_factor * lateral_error_x_normalized))
     forward = max(-1, min(1, scaling_factor * lateral_error_y_normalized))
     
-    # start trotting
-    trot()
 
     ramp_duration = 1  # Time to accelerate to full speed
     start_time = time.time()
@@ -117,13 +124,15 @@ def twist_robot(error_x, error_y, z_distance, duration):
 
         time.sleep(0.016)  # Sleep time based on message rate 0.016
     
+    time.sleep(0.1)
     # stop trotting so camera can take another measurement
     trot()
+    time.sleep(0.1)
         
 
 def rotate_robot(error_x, error_y, z_distance, duration):
     
-    scaling_factor = 1 #scaling of movement speeds
+    scaling_factor = 0.35 #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
     lateral_error_x_normalized = error_x / cx  # Normalized to -1 to 1
