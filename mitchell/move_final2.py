@@ -125,7 +125,7 @@ def main():
         error_x, error_y = cam_error(cam_x,cam_y)
 
         if z > 0.5:
-            if error_x > 50:
+            if abs(error_x) > 50:
                 twist_robot(error_x,error_y,z,3)
             else:
                 move_robot(error_x,error_y,z,3)
