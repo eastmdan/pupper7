@@ -27,16 +27,65 @@ coords_buffer = []
 # UDP Publisher
 drive_pub = Publisher(8830)
 
-def rotate_robot_analog(error_x, threshold=20, max_speed=500):
-    """Rotate the robot based on the x-axis error using analog input."""
+def rotate_robot(error_x, error_y, threshold=20):
+    """Rotate the robot based on the x-axis error."""
+
+    twist = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range   
+
     if abs(error_x) < threshold:
         # Error is within threshold, stop rotating
-        drive_pub.send({'f': 0, 't': 0})
+        drive_pub.send({
+            "L1": 0,
+            "R1": 0,
+            "x": 0,
+            "circle": 0,
+            "triangle": 0,
+            "L2": 0,
+            "R2": 0,
+            "ly": 0,
+            "lx": 0,
+            "rx": 0,
+            "message_rate": 60,
+            "ry": 0,
+            "dpady": 0,
+            "dpadx": 0
+        })
+    elif error_x > 0:
+        # Rotate clockwise
+        drive_pub.send({
+            "L1": 0,
+            "R1": 0,
+            "x": 0,
+            "circle": 0,
+            "triangle": 0,
+            "L2": 0,
+            "R2": 0,
+            "ly": 0,  # Left wheel forward
+            "lx": 0,
+            "rx": -twist,
+            "message_rate": 60,
+            "ry": 0,  # Right wheel backward
+            "dpady": 0,
+            "dpadx": 0
+        })
     else:
-        twist = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range
-        out = {'f': 0, 't': -max_speed * twist}
-        drive_pub.send(out)
-        print(out)
+        # Rotate counterclockwise
+        drive_pub.send({
+            "L1": 0,
+            "R1": 0,
+            "x": 0,
+            "circle": 0,
+            "triangle": 0,
+            "L2": 0,
+            "R2": 0,
+            "ly": 0,  # Left wheel backward
+            "lx": 0,
+            "rx": twist,
+            "message_rate": 60,
+            "ry": 0,  # Right wheel forward
+            "dpady": 0,
+            "dpadx": 0
+        })
 
 
 
@@ -45,6 +94,10 @@ def main(camera_index=0):
     
     # Initialize the webcam
     cap = cv2.VideoCapture(camera_index)
+
+    cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+    cap.set(cv2.CAP_PROP_FOCUS, 255) 
+    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
 
     # Check if the webcam is opened correctly
     if not cap.isOpened():
@@ -112,9 +165,10 @@ def main(camera_index=0):
 
             # Calculate the error between the dot's x-coordinate and the center of the image
             error_x = x - cx
+            error_y = y - cy
 
             # Rotate the robot based on the error
-            rotate_robot_analog(error_x)
+            rotate_robot(error_x, error_y)
         
         elapsed_time = time.time() - start_time  # Calculate how long the function took
         sleep_time = interval - elapsed_time  # Calculate the remaining time to sleep
