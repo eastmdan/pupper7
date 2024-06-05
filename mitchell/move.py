@@ -54,6 +54,25 @@ def rotate_robot(error_x, error_y):
             "dpady": 0,
             "dpadx": 0
         })
+    else:
+        # Rotate counterclockwise
+        drive_pub.send({
+            "L1": 0,
+            "R1": 0,
+            "x": 0,
+            "circle": 0,
+            "triangle": 0,
+            "L2": 0,
+            "R2": 0,
+            "ly": 0,  # Left wheel backward
+            "lx": 0,
+            "rx": 0,
+            "message_rate": 60,
+            "ry": 0,  # Right wheel forward
+            "dpady": 0,
+            "dpadx": 0
+        })
+    
     if abs(error_y) > threshold:
         # Error is within threshold, stop rotating
         drive_pub.send({
