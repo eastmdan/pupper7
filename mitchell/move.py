@@ -96,6 +96,10 @@ def main(camera_index=0):
     # Initialize the webcam
     cap = cv2.VideoCapture(camera_index)
 
+    # Set the resolution
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
     #cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
     #cap.set(cv2.CAP_PROP_FOCUS, 0) 
     #cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
@@ -165,8 +169,8 @@ def main(camera_index=0):
             y = (fy * median_y / median_z) + cy
 
             # Calculate the error between the dot's coordinates and the center of the image
-            error_x = x - cx
-            error_y = y - cy
+            error_x = cx - x
+            error_y = cy - y
             print(error_x, error_y)
 
             # Rotate the robot based on the error
