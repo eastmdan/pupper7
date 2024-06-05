@@ -2,7 +2,7 @@ import cv2
 import pyapriltags
 import numpy as np
 import time
-from movement import init, activate
+from movement import init, activate, trot
 from move_final1 import move_robot, twist_robot, rotate_robot
 
 
@@ -125,6 +125,8 @@ def main():
         error_x, error_y = cam_error(cam_x,cam_y)
 
         if z > 0.5:
+            trot()
+            time.sleep(0.3)
             if abs(error_x) > 50:
                 twist_robot(error_x,error_y,z,2)
             else:

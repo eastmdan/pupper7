@@ -18,11 +18,6 @@ drive_pub = Publisher(8830)
 def move_robot(error_x, error_y, z_distance, duration):
     
     scaling_factor = 0.4 #scaling of movement speeds
-    
-    time.sleep(0.1)
-    # start trotting
-    trot()
-    time.sleep(0.1)
 
     # Calculate normalized forward and lateral movements
     lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
@@ -73,11 +68,6 @@ def move_robot(error_x, error_y, z_distance, duration):
     
 
 def twist_robot(error_x, error_y, z_distance, duration):
-    
-    time.sleep(0.1)
-    # start trotting
-    trot()
-    time.sleep(0.1)
     
     scaling_factor = 0.35 #scaling of movement speeds
 
