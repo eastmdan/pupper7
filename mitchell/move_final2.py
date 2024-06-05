@@ -124,7 +124,7 @@ def main():
 
         error_x, error_y = cam_error(cam_x,cam_y)
 
-        if z > 1:
+        if z > 0.5:
             trot()
             time.sleep(0.2)
             
