@@ -27,7 +27,7 @@ tag_size = 0.136  # Example: 10 cm
 dot_distance = -0.14
 
 # Number of coordinates to store for median filtering
-num_coords = 5
+num_coords = 1
 coords_buffer = []
 
 # UDP Publisher
