@@ -2,7 +2,8 @@ import cv2
 import pyapriltags
 import numpy as np
 import time
-from move_final1 import move_robot
+from movement import init, activate, trot
+from move_final1 import move_robot, twist_robot, rotate_robot
 
 
 # Set the resolution
@@ -20,6 +21,8 @@ tag_size = 0.136  # Example: 10 cm
 
 # Distance to place the dot behind the AprilTag (6 inches = 0.1524 meters)
 dot_distance = -0.14
+
+throw_distance = 0.5 # m
 
 # Number of coordinates to store for median filtering
 num_coords = 10
@@ -126,6 +129,11 @@ def cam_error(cam_x,cam_y):
 
 def main():
     print("Main start")
+    
+    init()
+    time.sleep(0.3)
+    activate()
+    time.sleep(0.3)
 
     global coords_buffer
 
@@ -134,7 +142,22 @@ def main():
 
         error_x, error_y = cam_error(cam_x,cam_y)
 
-        move_robot(error_x,error_y,z,2.25)
+        if z >= throw_distance:
+            time.sleep(1)
+            trot()
+            time.sleep(1)
+            
+            if abs(error_x) >= 50:
+                twist_robot(error_x,error_y,z,2)
+            else:
+                move_robot(error_x,error_y,z,3)
+            
+            time.sleep(1)
+            trot()
+            time.sleep(1)
+            
+        elif z < throw_distance:
+            rotate_robot(error_x,error_y,z,2)
 
         
     
