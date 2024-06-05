@@ -94,16 +94,8 @@ def moveForward(duration):
     start_time = time.time() # start time keep
 
     # Loop until duration has passed
-    while (time.time() - start_time) < duration:
-        slow = 150
-        fast = 500
-
-        max_speed = 150
-
-        out = {'f':(max_speed),'t':-150}
-        drive_pub.send(out)
-        
-        """ drive_pub.send({
+    while (time.time() - start_time) < duration:       
+        drive_pub.send({
             "L1": 0, 
             "R1": 0, 
             "x": 0, 
@@ -118,7 +110,7 @@ def moveForward(duration):
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0
-        }) """ 
+        }) 
         time.sleep(0.3)
 
     time.sleep(0.3)
