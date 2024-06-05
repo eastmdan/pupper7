@@ -98,11 +98,7 @@ def cam_coords(camera_index=0):
                 cv2.destroyAllWindows()
                 print("cam off")
                 return avg_x, avg_y, avg_z, cam_x, cam_y
-
-
-        # Exit the loop when 'q' is pressed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break    
+   
 
 def cam_error(cam_x,cam_y):
     # Calculate the error between the dot's coordinates and the center of the image
