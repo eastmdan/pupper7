@@ -2,6 +2,7 @@ import cv2
 import pyapriltags
 import numpy as np
 import time
+from movement import init, activate
 from move_final1 import move_robot
 
 
@@ -110,6 +111,11 @@ def cam_error(cam_x,cam_y):
 
 def main():
     print("Main start")
+    
+    init()
+    time.sleep(0.3)
+    activate()
+    time.sleep(0.3)
 
     global coords_buffer
 
