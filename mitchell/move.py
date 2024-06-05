@@ -2,23 +2,23 @@ import cv2
 import pyapriltags
 import numpy as np
 from statistics import median
+import time
+from threading import Thread, Lock
 from UDPComms import Publisher
 from movement import init,activate,trot
-import time
 
-# Camera parameters (these values should be calibrated for your specific camera)
+
+##### Camera parameters #####
+
+# Set the resolution
+width = 640
+height = 360
+
 fx = 600.0  # Focal length in pixels
 fy = 600.0  # Focal length in pixels
-height = 360
-width = 640
-cy = height/2
-cx = width/2
+cx = width/2  # Principal point x-coordinate in pixels
+cy = height/2  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
-threshold = 5
-
-
-refresh_rate = 30.
-interval = 1. / refresh_rate
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
@@ -27,21 +27,44 @@ tag_size = 0.136  # Example: 10 cm
 dot_distance = -0.14
 
 # Number of coordinates to store for median filtering
-num_coords = 3
+num_coords = 5
 coords_buffer = []
 
-# UDP Publisher
-drive_pub = Publisher(8830)
 
-def rotate_robot(error_x, error_y):
-    """Rotate the robot based on the x-axis error."""
 
-    # Normalize error to -1 to 1 range 
-    twist_x = max(-1, min(1, error_x / cx))    
-    twist_y = max(-1, min(1, error_y / cy)) 
+# Set the refresh rate
+refresh_rate = 30
+interval = 1. / refresh_rate
+
+# Global variables for frame capture
+frame = None
+frame_lock = Lock()
+
+def capture_frames(camera_index=0):
+    global frame
+    cap = cv2.VideoCapture(camera_index)
+
+    # Set the resolution
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+
+    # Disable autofocus and set manual focus if needed
+    cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+    cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
+
+    while True:
+        ret, new_frame = cap.read()
+        if ret:
+            with frame_lock:
+                frame = new_frame.copy()
+
+def rotate_robot(error_x, error_y, threshold=20):
+    """Rotate the robot based on x and y errors."""
+    twist_x = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range
+    twist_y = max(-1, min(1, error_y / cy))  # Normalize error to -1 to 1 range
 
     if abs(error_x) > threshold or abs(error_y) > threshold:
-        # Error is within threshold, stop rotating
+        # If either error is above the threshold, send movement command
         drive_pub.send({
             "L1": 0,
             "R1": 0,
@@ -52,14 +75,14 @@ def rotate_robot(error_x, error_y):
             "R2": 0,
             "ly": 0,
             "lx": 0,
-            "rx": -twist_x,
+            "rx": twist_x,
             "message_rate": 60,
             "ry": twist_y,
             "dpady": 0,
             "dpadx": 0
         })
     else:
-        # Rotate counterclockwise
+        # If both errors are within the threshold, stop moving
         drive_pub.send({
             "L1": 0,
             "R1": 0,
@@ -76,27 +99,14 @@ def rotate_robot(error_x, error_y):
             "dpady": 0,
             "dpadx": 0
         })
-    
-
 
 def main(camera_index=0):
-    global coords_buffer
+    global coords_buffer, frame
     
-    # Initialize the webcam
-    cap = cv2.VideoCapture(camera_index)
-
-    # Set the resolution
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
-
-    #cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
-    #cap.set(cv2.CAP_PROP_FOCUS, 0) 
-    #cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
-
-    # Check if the webcam is opened correctly
-    if not cap.isOpened():
-        print(f"Error: Could not open webcam at index {camera_index}.")
-        return
+    # Start frame capture in a separate thread
+    capture_thread = Thread(target=capture_frames, args=(camera_index,))
+    capture_thread.daemon = True
+    capture_thread.start()
 
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
@@ -104,15 +114,15 @@ def main(camera_index=0):
     while True:
         start_time = time.time()
 
-        # Capture frame-by-frame
-        ret, frame = cap.read()
+        with frame_lock:
+            current_frame = frame.copy() if frame is not None else None
 
-        # If the frame was not captured correctly, continue to the next iteration
-        if not ret:
+        if current_frame is None:
+            time.sleep(0.001)
             continue
 
         # Convert the frame to grayscale (AprilTags detection requires grayscale images)
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(current_frame, cv2.COLOR_BGR2GRAY)
 
         # Detect AprilTags in the grayscale image
         detections = detector.detect(gray, estimate_tag_pose=True, camera_params=camera_params, tag_size=tag_size)
@@ -167,9 +177,5 @@ def main(camera_index=0):
         else:
             print("Warning: Function execution is slower than the desired interval.")
 
-init
-time.sleep(1)
-activate()
-time.sleep(1)
-
-main(camera_index=0)  # Change the index if needed
+if __name__ == "__main__":
+    main(camera_index=0)  # Change the index if needed
