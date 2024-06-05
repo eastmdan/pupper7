@@ -15,7 +15,7 @@ cy = height/2
 cx = width/2
 camera_params = (fx, fy, cx, cy)
 
-refresh_rate = 15.
+refresh_rate = 5.
 threshold = 5
 
 # Tag size in meters (this should match the physical size of your AprilTag)
@@ -25,7 +25,7 @@ tag_size = 0.136  # Example: 10 cm
 dot_distance = -0.14
 
 # Number of coordinates to store for median filtering
-num_coords = 3
+num_coords = 5
 coords_buffer = []
 
 # UDP Publisher
