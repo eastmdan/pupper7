@@ -36,7 +36,7 @@ def rotate_robot(error_x, error_y):
     twist_x = max(-1, min(1, error_x / cx))    
     twist_y = max(-1, min(1, error_y / cy)) 
 
-    if abs(error_x) > threshold:
+    if abs(error_x) > threshold or abs(error_y) > threshold:
         # Error is within threshold, stop rotating
         drive_pub.send({
             "L1": 0,
@@ -49,43 +49,6 @@ def rotate_robot(error_x, error_y):
             "ly": 0,
             "lx": 0,
             "rx": twist_x,
-            "message_rate": 60,
-            "ry": 0,
-            "dpady": 0,
-            "dpadx": 0
-        })
-    else:
-        # Rotate counterclockwise
-        drive_pub.send({
-            "L1": 0,
-            "R1": 0,
-            "x": 0,
-            "circle": 0,
-            "triangle": 0,
-            "L2": 0,
-            "R2": 0,
-            "ly": 0,  # Left wheel backward
-            "lx": 0,
-            "rx": 0,
-            "message_rate": 60,
-            "ry": 0,  # Right wheel forward
-            "dpady": 0,
-            "dpadx": 0
-        })
-    
-    if abs(error_y) > threshold:
-        # Error is within threshold, stop rotating
-        drive_pub.send({
-            "L1": 0,
-            "R1": 0,
-            "x": 0,
-            "circle": 0,
-            "triangle": 0,
-            "L2": 0,
-            "R2": 0,
-            "ly": 0,
-            "lx": 0,
-            "rx": 0,
             "message_rate": 60,
             "ry": twist_y,
             "dpady": 0,
@@ -101,15 +64,15 @@ def rotate_robot(error_x, error_y):
             "triangle": 0,
             "L2": 0,
             "R2": 0,
-            "ly": 0,  # Left wheel backward
+            "ly": 0,
             "lx": 0,
             "rx": 0,
             "message_rate": 60,
-            "ry": 0,  # Right wheel forward
+            "ry": 0,
             "dpady": 0,
             "dpadx": 0
         })
-
+    
 
 
 def main(camera_index=0):
