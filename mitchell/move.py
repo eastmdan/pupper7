@@ -56,8 +56,6 @@ def move_robot(error_store, error_store_lock):
         forward = max(-1, min(1, scaling_factor * forward_error_normalized))
 
         if abs(z_distance - throw_distance) > 0:  # Movement command condition
-            trot()  # Start trotting
-            time.sleep(0.15)
 
             ramp_duration = 1  # Time to accelerate to full speed
             start_time = time.time()
@@ -81,8 +79,6 @@ def move_robot(error_store, error_store_lock):
                 })
 
                 time.sleep(0.016)  # Sleep time based on message rate
-
-            trot()  # Stop trotting
 
         # Condition to exit loop (if required)
         else:   # If z-distance is within range, stop function

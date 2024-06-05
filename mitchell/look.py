@@ -69,6 +69,7 @@ def main(camera_index=0):
     time.sleep(0.5)
     activate()
     time.sleep(0.5)
+    trot()
     
     # Start the robot movement in a separate thread
     robot_thread = Thread(target=move_robot, args=(error_store, error_store_lock))
