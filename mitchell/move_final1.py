@@ -14,6 +14,7 @@ cy = height/2  # Principal point y-coordinate in pixels
 # UDP Publisher
 drive_pub = Publisher(8830)
 
+refresh = 0.016
 
 def move_robot(error_x, error_y, z_distance, duration):
     
@@ -59,7 +60,23 @@ def move_robot(error_x, error_y, z_distance, duration):
                 "dpadx": 0
             })
 
-        time.sleep(0.016)  # Sleep time based on message rate 0.016
+        time.sleep(refresh)  # Sleep time based on message rate 0.016
+    drive_pub.send({
+                "L1": 0, 
+                "R1": 0, 
+                "x": 0, 
+                "circle": 0, 
+                "triangle": 0, 
+                "L2": 0, 
+                "R2": 0, 
+                "ly": 0, 
+                "lx": 0, 
+                "rx": 0, 
+                "message_rate": 60, 
+                "ry": 0, 
+                "dpady": 0, 
+                "dpadx": 0
+            })
     
     
 
@@ -108,7 +125,24 @@ def twist_robot(error_x, error_y, z_distance, duration):
                 "dpadx": 0
             })
 
-        time.sleep(0.016)  # Sleep time based on message rate 0.016
+        time.sleep(refresh)  # Sleep time based on message rate 0.016
+        
+    drive_pub.send({
+                "L1": 0, 
+                "R1": 0, 
+                "x": 0, 
+                "circle": 0, 
+                "triangle": 0, 
+                "L2": 0, 
+                "R2": 0, 
+                "ly": 0, 
+                "lx": 0, 
+                "rx": 0, 
+                "message_rate": 60, 
+                "ry": 0, 
+                "dpady": 0, 
+                "dpadx": 0
+            })
 
         
 
@@ -156,4 +190,21 @@ def rotate_robot(error_x, error_y, z_distance, duration):
                 "dpadx": 0
             })
 
-        time.sleep(0.016)  # Sleep time based on message rate 0.016
+        time.sleep(refresh)  # Sleep time based on message rate 0.016
+    
+    drive_pub.send({
+                "L1": 0, 
+                "R1": 0, 
+                "x": 0, 
+                "circle": 0, 
+                "triangle": 0, 
+                "L2": 0, 
+                "R2": 0, 
+                "ly": 0, 
+                "lx": 0, 
+                "rx": 0, 
+                "message_rate": 60, 
+                "ry": 0, 
+                "dpady": 0, 
+                "dpadx": 0
+            })
