@@ -3,6 +3,7 @@ import pyapriltags
 import numpy as np
 from statistics import median
 from UDPComms import Publisher
+from movement import init,activate,trot
 import time
 
 # Camera parameters (these values should be calibrated for your specific camera)
@@ -179,5 +180,7 @@ def main(camera_index=0):
             print("Warning: Function execution is slower than the desired interval.")
 
 
+activate()
+time.sleep(1)
 
 main(camera_index=0)  # Change the index if needed
