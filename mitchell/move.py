@@ -7,13 +7,13 @@ from movement import init,activate,trot
 import time
 
 # Camera parameters (these values should be calibrated for your specific camera)
-fx = 1000.0  # Focal length in pixels
-fy = 1000.0  # Focal length in pixels
+fx = 600.0  # Focal length in pixels
+fy = 600.0  # Focal length in pixels
 cx = 960.0  # Principal point x-coordinate in pixels
 cy = 540.0  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
 
-refresh_rate = 10.
+refresh_rate = 15.
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
@@ -22,7 +22,7 @@ tag_size = 0.136  # Example: 10 cm
 dot_distance = -0.14
 
 # Number of coordinates to store for median filtering
-num_coords = 5
+num_coords = 3
 coords_buffer = []
 
 # UDP Publisher
@@ -96,9 +96,9 @@ def main(camera_index=0):
     # Initialize the webcam
     cap = cv2.VideoCapture(camera_index)
 
-    cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
+    #cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
     #cap.set(cv2.CAP_PROP_FOCUS, 0) 
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
+    #cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
 
     # Check if the webcam is opened correctly
     if not cap.isOpened():
@@ -158,15 +158,16 @@ def main(camera_index=0):
             median_z = median(coord[2] for coord in coords_buffer)
 
             # Print the filtered coordinates
-            print(f"X: {median_x}, Y: {median_y}, Z: {median_z}")
+            #print(f"X: {median_x}, Y: {median_y}, Z: {median_z}")
 
             # Project the dot position to the image plane
             x = (fx * median_x / median_z) + cx
             y = (fy * median_y / median_z) + cy
 
-            # Calculate the error between the dot's x-coordinate and the center of the image
-            error_x = x - cx
-            error_y = y - cy
+            # Calculate the error between the dot's coordinates and the center of the image
+            error_x = cx - x
+            error_y = cy - y
+            print(error_x, error_y)
 
             # Rotate the robot based on the error
             rotate_robot(error_x, error_y)
@@ -179,7 +180,8 @@ def main(camera_index=0):
         else:
             print("Warning: Function execution is slower than the desired interval.")
 
-
+init
+time.sleep(1)
 activate()
 time.sleep(1)
 
