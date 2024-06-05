@@ -95,7 +95,15 @@ def moveForward(duration):
 
     # Loop until duration has passed
     while (time.time() - start_time) < duration:
-        drive_pub.send({
+        slow = 150
+        fast = 500
+
+        max_speed = 150
+
+        out = {'f':(max_speed),'t':-150}
+        drive_pub.send(out)
+        
+        """ drive_pub.send({
             "L1": 0, 
             "R1": 0, 
             "x": 0, 
@@ -110,7 +118,7 @@ def moveForward(duration):
             "ry": 0, 
             "dpady": 0, 
             "dpadx": 0
-        }) 
+        }) """ 
         time.sleep(0.3)
 
     time.sleep(0.3)
@@ -148,3 +156,11 @@ def rotate(duration):
     
     time.sleep(0.3)
     trot() # Stop trotting
+    
+
+time.sleep(1)
+init()
+time.sleep(1)
+activate()
+time.sleep(1)
+moveForward(5)

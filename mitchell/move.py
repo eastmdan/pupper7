@@ -34,7 +34,7 @@ coords_buffer = []
 drive_pub = Publisher(8830)
 
 # Set the refresh rate
-refresh_rate = 40
+refresh_rate = 30.
 interval = 1. / refresh_rate
 threshold = 5
 
