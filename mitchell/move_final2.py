@@ -25,7 +25,7 @@ dot_distance = -0.14
 num_coords = 10
 coords_buffer = []
 
-def cam_coords(camera_index=0):
+def cam_coords(camera_index=0, max_frames=100):
     # Initialize the webcam
     print("turning cam on")
     cap = cv2.VideoCapture(camera_index)
@@ -34,19 +34,21 @@ def cam_coords(camera_index=0):
     # Check if the webcam is opened correctly
     if not cap.isOpened():
         print(f"Error: Could not open webcam at index {camera_index}.")
-        return
+        return None, "Error: Could not open webcam"
 
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
 
     coords_buffer = []
+    frames_processed = 0
 
-    while True:
+    while frames_processed < max_frames:
         # Capture frame-by-frame
         ret, frame = cap.read()
 
         # If the frame was not captured correctly, continue to the next iteration
         if not ret:
+            frames_processed += 1
             continue
 
         # Convert the frame to grayscale (AprilTags detection requires grayscale images)
@@ -56,47 +58,61 @@ def cam_coords(camera_index=0):
         detections = detector.detect(gray, estimate_tag_pose=True, camera_params=camera_params, tag_size=tag_size)
 
         # Process each detection
-        for detection in detections:
-            corners = detection.corners.astype(int)
-            
-            # Get the pose estimation
-            pose_R = detection.pose_R
-            pose_t = detection.pose_t
+        if detections:
+            for detection in detections:
+                corners = detection.corners.astype(int)
+                
+                # Get the pose estimation
+                pose_R = detection.pose_R
+                pose_t = detection.pose_t
 
-            # Convert the rotation matrix and translation vector to a 4x4 transformation matrix
-            transformation_matrix = np.eye(4)
-            transformation_matrix[:3, :3] = pose_R
-            transformation_matrix[:3, 3] = pose_t[:, 0]
+                # Convert the rotation matrix and translation vector to a 4x4 transformation matrix
+                transformation_matrix = np.eye(4)
+                transformation_matrix[:3, :3] = pose_R
+                transformation_matrix[:3, 3] = pose_t[:, 0]
 
-            # Define the position of the dot in the tag's frame (6 inches behind the tag)
-            dot_position_tag_frame = np.array([0, 0, -dot_distance, 1])
+                # Define the position of the dot in the tag's frame (6 inches behind the tag)
+                dot_position_tag_frame = np.array([0, 0, -dot_distance, 1])
 
-            # Transform the dot position to the camera frame
-            dot_position_camera_frame = np.dot(transformation_matrix, dot_position_tag_frame)
+                # Transform the dot position to the camera frame
+                dot_position_camera_frame = np.dot(transformation_matrix, dot_position_tag_frame)
 
-            # Store the coordinates in the buffer
-            coords_buffer.append(dot_position_camera_frame[:3])
+                # Store the coordinates in the buffer
+                coords_buffer.append(dot_position_camera_frame[:3])
 
-            # Keep only the last `num_coords` coordinates in the buffer
-            if len(coords_buffer) > num_coords:
-                coords_buffer = coords_buffer[-num_coords:]
+                # Keep only the last `num_coords` coordinates in the buffer
+                if len(coords_buffer) > num_coords:
+                    coords_buffer = coords_buffer[-num_coords:]
 
-            # Check if we have enough data points
-            if len(coords_buffer) >= num_coords:
-                # Calculate the average coordinates
-                avg_x = np.mean([coord[0] for coord in coords_buffer])
-                avg_y = np.mean([coord[1] for coord in coords_buffer])
-                avg_z = np.mean([coord[2] for coord in coords_buffer])
+                # Check if we have enough data points
+                if len(coords_buffer) >= num_coords:
+                    # Calculate the average coordinates
+                    avg_x = np.mean([coord[0] for coord in coords_buffer])
+                    avg_y = np.mean([coord[1] for coord in coords_buffer])
+                    avg_z = np.mean([coord[2] for coord in coords_buffer])
 
-                # Project the dot position to the image plane
-                cam_x = (fx * avg_x / avg_z) + cx
-                cam_y = (fy * avg_y / avg_z) + cy
+                    # Project the dot position to the image plane
+                    cam_x = (fx * avg_x / avg_z) + cx
+                    cam_y = (fy * avg_y / avg_z) + cy
 
-                # Print or return the average coordinates
-                print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
-                cap.release()
-                print("cam off")
-                return avg_x, avg_y, avg_z, cam_x, cam_y
+                    # Print or return the average coordinates
+                    print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
+                    cap.release()
+                    print("cam off")
+                    return avg_x, avg_y, avg_z, cam_x, cam_y
+
+        frames_processed += 1
+
+    cap.release()
+    print("cam off - no AprilTag detected")
+    return None, "No AprilTag detected within the given frames"
+
+# Example usage:
+# coordinates, message = cam_coords()
+# if coordinates:
+#     print("Coordinates:", coordinates)
+# else:
+#     print("Message:", message)
    
 
 def cam_error(cam_x,cam_y):
