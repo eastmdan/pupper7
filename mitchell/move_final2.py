@@ -118,7 +118,7 @@ def main():
 
         error_x, error_y = cam_error(cam_x,cam_y)
 
-        move_robot(error_x,error_y,z,3)
+        move_robot(error_x,error_y,z,1)
 
 
         
