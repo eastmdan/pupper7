@@ -104,7 +104,7 @@ def cam_error(cam_x,cam_y):
     error_x = cx - cam_x
     error_y = cy - cam_y
 
-    return error_x, error_y
+    return -error_x, error_y
 
 
 
