@@ -148,13 +148,3 @@ def rotate(duration):
     
     time.sleep(0.3)
     trot() # Stop trotting
-
-
-
-""" time.sleep(1)
-init()
-time.sleep(1)"""
-activate()
-time.sleep(1)
-
-moveForward(3)
