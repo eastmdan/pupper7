@@ -1,30 +1,16 @@
-import cv2
-import pyapriltags
-import numpy as np
-from statistics import median
 import time
-from threading import Thread, Lock
 from UDPComms import Publisher
-from movement import init,activate,trot,move,rotate
+from movement import init,activate,trot
 
-# Set the refresh rate
-refresh_rate = 30
-interval = 1. / refresh_rate
 
 # Set the resolution
 width = 640
 height = 360
 
-fx = 600.0  # Focal length in pixels
-fy = 600.0  # Focal length in pixels
 cx = width/2  # Principal point x-coordinate in pixels
 cy = height/2  # Principal point y-coordinate in pixels
-camera_params = (fx, fy, cx, cy)
-
 
 throw_distance = 1. # m away form the box the robot will throw
-
-
 
 
 # UDP Publisher
@@ -36,6 +22,10 @@ def move_robot(error_x, error_y, z_distance, duration):
     
     scaling_factor = 0.5 #scaling of movement speeds
     throw_distance = 0.25  # distance for launch
+    
+    # start trotting
+    trot()
+    time.sleep(0.3)
 
     while True:
     
@@ -65,7 +55,7 @@ def move_robot(error_x, error_y, z_distance, duration):
                     lx = 1
 
                 drive_pub.send({
-                        "L1": 1, 
+                        "L1": 0, 
                         "R1": 0, 
                         "x": 0, 
                         "circle": 0, 
@@ -82,7 +72,18 @@ def move_robot(error_x, error_y, z_distance, duration):
                     })
 
                 time.sleep(0.35)  # Sleep time based on message rate 0.016
+            
+            # stop trotting so camera can take another measurement
+            trot()
+            
 
         # Condition to exit loop (if required)
         else:   # If z-distance is within range, stop function
             break
+
+
+init()
+time.sleep(0.5)
+activate()
+time.sleep(0.5)
+move_robot(1,0,5,5)
