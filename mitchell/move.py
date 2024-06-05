@@ -27,14 +27,14 @@ tag_size = 0.136  # Example: 10 cm
 dot_distance = -0.14
 
 # Number of coordinates to store for median filtering
-num_coords = 5
+num_coords = 1
 coords_buffer = []
 
 # UDP Publisher
 drive_pub = Publisher(8830)
 
 # Set the refresh rate
-refresh_rate = 20
+refresh_rate = 40
 interval = 1. / refresh_rate
 threshold = 5
 
@@ -147,26 +147,31 @@ def main(camera_index=0):
             # Transform the dot position to the camera frame
             dot_position_camera_frame = np.dot(transformation_matrix, dot_position_tag_frame)
 
-            # Store the coordinates in the buffer
-            coords_buffer.append(dot_position_camera_frame)
+            ## Store the coordinates in the buffer
+            #coords_buffer.append(dot_position_camera_frame)
 
-            # Keep only the last `num_coords` coordinates in the buffer
-            if len(coords_buffer) > num_coords:
-                coords_buffer = coords_buffer[-num_coords:]
+            ## Keep only the last `num_coords` coordinates in the buffer
+            #if len(coords_buffer) > num_coords:
+            #    coords_buffer = coords_buffer[-num_coords:]
 
-            # Apply median filtering
-            median_x = median(coord[0] for coord in coords_buffer)
-            median_y = median(coord[1] for coord in coords_buffer)
-            median_z = median(coord[2] for coord in coords_buffer)
+            ## Apply median filtering
+            #median_x = median(coord[0] for coord in coords_buffer)
+            #median_y = median(coord[1] for coord in coords_buffer)
+            #median_z = median(coord[2] for coord in coords_buffer)
+
+            dot_x = dot_position_camera_frame[0]
+            dot_y = dot_position_camera_frame[1]
+            dot_z = dot_position_camera_frame[2]
+
 
             # Project the dot position to the image plane
-            x = (fx * median_x / median_z) + cx
-            y = (fy * median_y / median_z) + cy
+            x = (fx * dot_x / dot_z) + cx
+            y = (fy * dot_y / dot_z) + cy
 
             # Calculate the error between the dot's coordinates and the center of the image
             error_x = cx - x
             error_y = cy - y
-            print(error_x, error_y, median_z)
+            print(error_x, error_y, dot_z)
 
             # Rotate the robot based on the error
             rotate_robot(error_x, error_y)
