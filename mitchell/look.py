@@ -34,7 +34,7 @@ coords_buffer = []
 drive_pub = Publisher(8830)
 
 # Set the refresh rate
-refresh_rate = 30.
+refresh_rate = 15
 interval = 1. / refresh_rate
 threshold = 5
 
@@ -89,6 +89,10 @@ def rotate_robot(error_x, error_y):
 
 def main(camera_index=0):
     global coords_buffer, frame
+    
+    init()
+    time.sleep(0.5)
+    activate()
     
     # Start frame capture in a separate thread
     capture_thread = Thread(target=capture_frames, args=(camera_index,))
