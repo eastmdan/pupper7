@@ -5,7 +5,7 @@ from statistics import median
 import time
 from threading import Thread, Lock
 from UDPComms import Publisher
-from movement import init,activate,trot
+from movement import init,activate,trot,move,rotate
 
 
 ##### Camera parameters #####
@@ -67,7 +67,9 @@ def rotate_robot(error_x, error_y):
 
     if abs(error_x) > threshold or abs(error_y) > threshold:
         # If either error is above the threshold, send movement command
-        drive_pub.send({
+        rotate(-twist_x/2,twist_y/2,0.5)
+        
+        """ drive_pub.send({
             "L1": 0,
             "R1": 0,
             "x": 0,
@@ -82,25 +84,8 @@ def rotate_robot(error_x, error_y):
             "ry": twist_y/2,
             "dpady": 0,
             "dpadx": 0
-        })
-    else:
-        # If both errors are within the threshold, stop moving
-        drive_pub.send({
-            "L1": 0,
-            "R1": 0,
-            "x": 0,
-            "circle": 0,
-            "triangle": 0,
-            "L2": 0,
-            "R2": 0,
-            "ly": 0,
-            "lx": 0,
-            "rx": 0,
-            "message_rate": 60,
-            "ry": 0,
-            "dpady": 0,
-            "dpadx": 0
-        })
+        }) """
+
 
 def main(camera_index=0):
     global coords_buffer, frame
