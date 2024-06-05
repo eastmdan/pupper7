@@ -37,7 +37,7 @@ def main(camera_index=0):
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
 
-    interval = 1 / refresh_rate
+    interval = 1. / refresh_rate
 
     while True:
 
