@@ -95,21 +95,16 @@ def cam_coords(camera_index=0):
                 # Print or return the average coordinates
                 print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
                 cap.release()
-                cv2.destroyAllWindows()
                 print("cam off")
                 return avg_x, avg_y, avg_z, cam_x, cam_y
-
-
-        # Exit the loop when 'q' is pressed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break    
+   
 
 def cam_error(cam_x,cam_y):
     # Calculate the error between the dot's coordinates and the center of the image
     error_x = cx - cam_x
     error_y = cy - cam_y
 
-    return error_x, error_y
+    return -error_x, error_y
 
 
 
@@ -123,7 +118,7 @@ def main():
 
         error_x, error_y = cam_error(cam_x,cam_y)
 
-        move_robot(error_x,error_y,z,3)
+        move_robot(error_x,error_y,z,1.5)
 
 
         
