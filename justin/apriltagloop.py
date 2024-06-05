@@ -86,12 +86,16 @@ def cam_coords(camera_index=0):
                 avg_y = np.mean([coord[1] for coord in coords_buffer])
                 avg_z = np.mean([coord[2] for coord in coords_buffer])
 
+                # Project the dot position to the image plane
+                cam_x = (fx * avg_x / avg_z) + cx
+                cam_y = (fy * avg_y / avg_z) + cy
+
                 # Print or return the average coordinates
-                print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}")
+                print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
                 cap.release()
                 cv2.destroyAllWindows()
                 print("cam off")
-                return avg_x, avg_y, avg_z
+                return avg_x, avg_y, avg_z, cam_x, cam_y
 
 
         # Exit the loop when 'q' is pressed
@@ -106,7 +110,7 @@ def main():
     disp = Display()
 
     for x in range(3):
-        x,y,z = cam_coords(camera_index=0)
+        x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
         time.sleep(0.1)
     
 
