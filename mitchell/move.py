@@ -11,7 +11,7 @@ cx = 320.0  # Principal point x-coordinate in pixels
 cy = 280.0  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
 
-refresh_rate = 5.
+refresh_rate = 10.
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
@@ -58,7 +58,6 @@ def main(camera_index=0):
 
         # Draw detection results on the original frame
         for detection in detections:
-            corners = detection.corners.astype(int)
             
             # Get the pose estimation
             pose_R = detection.pose_R
