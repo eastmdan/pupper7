@@ -186,7 +186,7 @@ def main(camera_index=0):
             print(error_x, error_y, dot_z)
 
             # Rotate the robot based on the error
-            rotate_robot(error_x, error_y)
+            move_robot(error_x, error_y, dot_z)
         
         elapsed_time = time.time() - start_time  # Calculate how long the function took
         sleep_time = interval - elapsed_time  # Calculate the remaining time to sleep
