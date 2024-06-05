@@ -95,7 +95,6 @@ def cam_coords(camera_index=0):
                 # Print or return the average coordinates
                 print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
                 cap.release()
-                cv2.destroyAllWindows()
                 print("cam off")
                 return avg_x, avg_y, avg_z, cam_x, cam_y
    
