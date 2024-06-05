@@ -30,7 +30,8 @@ dot_distance = -0.14
 num_coords = 5
 coords_buffer = []
 
-
+# UDP Publisher
+drive_pub = Publisher(8830)
 
 # Set the refresh rate
 refresh_rate = 30
