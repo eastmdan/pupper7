@@ -21,7 +21,6 @@ def move_robot(error_x, error_y, z_distance, duration):
     
     # start trotting
     trot()
-    time.sleep(0.016)
 
     # Calculate normalized forward and lateral movements
     lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
