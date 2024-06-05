@@ -121,29 +121,35 @@ def main():
 
     global coords_buffer
 
-    for x in range(10):
-        x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
+    for _ in range(10):  # Use underscore if 'x' is not used in the loop
+        coordinates = cam_coords(camera_index=0)
+        if coordinates is None:  # Check if cam_coords returned None
+            rotate_robot(90, 0, 0, 3)  # Arbitrary twist to scan
+            coordinates = cam_coords(camera_index=0)
+            if coordinates is None:
+                rotate_robot(-90, 0, 0, 3)  # Twist in the opposite direction
+                coordinates = cam_coords(camera_index=0)
+                if coordinates is not None:
+                    twist_robot(-45, 0, 0, 2)
+                    pass
+            elif coordinates:
+                twist_robot(45, 0, 0, 2)
+                pass
+        else:
+            x, y, z, cam_x, cam_y = coordinates
+            error_x, error_y = cam_error(cam_x, cam_y)
 
-        error_x, error_y = cam_error(cam_x,cam_y)
+            if z >= throw_distance:
 
-        if z >= throw_distance:
-            time.sleep(1)
-            trot()
-            time.sleep(1)
-            
-            if abs(error_x) >= 50:
-                twist_robot(error_x,error_y,z,2)
-            else:
-                move_robot(error_x,error_y,z,3)
-            
-            time.sleep(1)
-            trot()
-            time.sleep(1)
-            
-        elif z < throw_distance:
-            rotate_robot(error_x,error_y,z,2)
+                if abs(error_x) >= 50:
+                    twist_robot(error_x, error_y, z, 2)
+                else:
+                    move_robot(error_x, error_y, z, 3)
 
-        
+            elif z < throw_distance:
+                rotate_robot(error_x, error_y, z, 2)
+            
+            
     
 
 if __name__ == "__main__":

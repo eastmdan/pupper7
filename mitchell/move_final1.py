@@ -58,13 +58,13 @@ def move_robot(error_x, error_y, z_distance, duration):
                 "ly": forward * ly, 
                 "lx": 0, 
                 "rx": 0, 
-                "message_rate": 60, 
+                "message_rate": refresh, 
                 "ry": 0, 
                 "dpady": 0, 
                 "dpadx": 0
             })
 
-        time.sleep(refresh)
+        time.sleep(1/refresh)
         
     clear()
     
@@ -109,13 +109,13 @@ def twist_robot(error_x, error_y, z_distance, duration):
                 "ly": 0.1, 
                 "lx": 0, 
                 "rx": lateral * rx, 
-                "message_rate": 60, 
+                "message_rate": refresh, 
                 "ry": 0, 
                 "dpady": 0, 
                 "dpadx": 0
             })
 
-        time.sleep(refresh)
+        time.sleep(1/refresh)
         
     clear()
 
@@ -159,12 +159,12 @@ def rotate_robot(error_x, error_y, z_distance, duration):
                 "ly": 0, 
                 "lx": 0, 
                 "rx": lateral * rx, 
-                "message_rate": 60, 
+                "message_rate": refresh, 
                 "ry": forward * ry, 
                 "dpady": 0, 
                 "dpadx": 0
             })
 
-        time.sleep(refresh)  
+        time.sleep(1/refresh)  
     
     clear()

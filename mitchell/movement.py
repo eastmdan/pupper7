@@ -18,7 +18,7 @@ def init():
         "ly": 0, 
         "lx": 0, 
         "rx": 0, 
-        "message_rate": 60, 
+        "message_rate": 20, 
         "ry": 0, 
         "dpady": 0, 
         "dpadx": 0
@@ -37,7 +37,7 @@ def activate():
         "ly": 0, 
         "lx": 0, 
         "rx": 0, 
-        "message_rate": 60, 
+        "message_rate": 20, 
         "ry": 0, 
         "dpady": 0, 
         "dpadx": 0
@@ -55,7 +55,7 @@ def trot():
         "ly": 0, 
         "lx": 0, 
         "rx": 0, 
-        "message_rate": 60, 
+        "message_rate": 20, 
         "ry": 0, 
         "dpady": 0, 
         "dpadx": 0
@@ -73,7 +73,7 @@ def clear():
                 "ly": 0, 
                 "lx": 0, 
                 "rx": 0, 
-                "message_rate": 60, 
+                "message_rate": 20, 
                 "ry": 0, 
                 "dpady": 0, 
                 "dpadx": 0
@@ -112,7 +112,7 @@ def move(forward, lateral, duration):
             "ly": forward*ly,
             "lx": lateral*lx,
             "rx": 0,
-            "message_rate": 60,
+            "message_rate": 20,
             "ry": 0,
             "dpady": 0,
             "dpadx": 0
@@ -153,7 +153,7 @@ def rotate(forward, lateral, duration):
             "ly": 0,
             "lx": 0,
             "rx": -lateral*rx,
-            "message_rate": 60,
+            "message_rate": 20,
             "ry": forward*ry,
             "dpady": 0,
             "dpadx": 0
