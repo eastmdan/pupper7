@@ -104,7 +104,7 @@ def moveForward(duration):
             "L2": 0, 
             "R2": 0, 
             "ly": 1, 
-            "lx": 0.5, 
+            "lx": 0.25, 
             "rx": 0, 
             "message_rate": 60, 
             "ry": 0, 
