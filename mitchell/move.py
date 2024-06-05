@@ -36,6 +36,7 @@ drive_pub = Publisher(8830)
 # Set the refresh rate
 refresh_rate = 30
 interval = 1. / refresh_rate
+threshold = 5
 
 # Global variables for frame capture
 frame = None
@@ -59,7 +60,7 @@ def capture_frames(camera_index=0):
             with frame_lock:
                 frame = new_frame.copy()
 
-def rotate_robot(error_x, error_y, threshold=20):
+def rotate_robot(error_x, error_y):
     """Rotate the robot based on x and y errors."""
     twist_x = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range
     twist_y = max(-1, min(1, error_y / cy))  # Normalize error to -1 to 1 range
