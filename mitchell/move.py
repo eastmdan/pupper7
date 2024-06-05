@@ -9,8 +9,8 @@ import time
 # Camera parameters (these values should be calibrated for your specific camera)
 fx = 600.0  # Focal length in pixels
 fy = 600.0  # Focal length in pixels
-cx = 960.0  # Principal point x-coordinate in pixels
-cy = 540.0  # Principal point y-coordinate in pixels
+cx = 640.0  # Principal point x-coordinate in pixels
+cy = 360.0  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
 
 refresh_rate = 15.
@@ -97,8 +97,8 @@ def main(camera_index=0):
     cap = cv2.VideoCapture(camera_index)
 
     # Set the resolution
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
     #cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
     #cap.set(cv2.CAP_PROP_FOCUS, 0) 
