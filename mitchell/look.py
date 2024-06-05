@@ -25,6 +25,7 @@ tag_size = 0.136  # Example: 10 cm
 
 # Distance to place the dot behind the AprilTag (6 inches = 0.1524 meters)
 dot_distance = -0.14
+throw_distance = 1. # m away form the box the robot will throw
 
 # Number of coordinates to store for median filtering
 num_coords = 1
@@ -59,6 +60,28 @@ def capture_frames(camera_index=0):
         if ret:
             with frame_lock:
                 frame = new_frame.copy()
+                
+                
+                
+def move_robot(error_x, error_y, z_distance):
+    """Move the robot towards the projected dot until a certain distance."""
+    
+    # movement parameters
+    duration = 0.5
+    scaling_factor = 0.5
+    
+    # calculate forward and lateral movements
+    lateral_error_normalized = (error_x / cx)  # Normalized to -1 to 1
+    forward_error_normalized = (z_distance - throw_distance) / throw_distance  # Normalized to -1 to 1
+
+    # amrp the speeds
+    lateral = max(-1, min(1, scaling_factor * lateral_error_normalized))
+    forward = max(-1, min(1, scaling_factor * forward_error_normalized))  
+
+    if abs(z_distance - threshold) > 0:  # If distance is off by more than 1 m, send movement command
+        move(forward, lateral, duration)
+
+
 
 def rotate_robot(error_x, error_y):
     """Rotate the robot based on x and y errors."""
@@ -173,5 +196,5 @@ def main(camera_index=0):
         else:
             print("Warning: Function execution is slower than the desired interval.")
 
-if __name__ == "__main__": # change
+if __name__ == "__main__":
     main(camera_index=0)  # Change the index if needed
