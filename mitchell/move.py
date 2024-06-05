@@ -14,9 +14,11 @@ width = 640
 cy = height/2
 cx = width/2
 camera_params = (fx, fy, cx, cy)
+threshold = 5
+
 
 refresh_rate = 30.
-threshold = 5
+interval = 1. / refresh_rate
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
@@ -99,10 +101,7 @@ def main(camera_index=0):
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
 
-    interval = 1. / refresh_rate
-
     while True:
-
         start_time = time.time()
 
         # Capture frame-by-frame
@@ -118,9 +117,9 @@ def main(camera_index=0):
         # Detect AprilTags in the grayscale image
         detections = detector.detect(gray, estimate_tag_pose=True, camera_params=camera_params, tag_size=tag_size)
 
-        # Draw detection results on the original frame
-        for detection in detections:
-            
+        if detections:
+            detection = detections[0]
+
             # Get the pose estimation
             pose_R = detection.pose_R
             pose_t = detection.pose_t
@@ -147,9 +146,6 @@ def main(camera_index=0):
             median_x = median(coord[0] for coord in coords_buffer)
             median_y = median(coord[1] for coord in coords_buffer)
             median_z = median(coord[2] for coord in coords_buffer)
-
-            # Print the filtered coordinates
-            #print(f"X: {median_x}, Y: {median_y}, Z: {median_z}")
 
             # Project the dot position to the image plane
             x = (fx * median_x / median_z) + cx
