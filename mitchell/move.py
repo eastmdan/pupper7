@@ -32,7 +32,9 @@ drive_pub = Publisher(8830)
 def rotate_robot(error_x, error_y):
     """Rotate the robot based on the x-axis error."""
 
-    twist = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range   
+    # Normalize error to -1 to 1 range 
+    twist_x = max(-1, min(1, error_x / cx))    
+    twist_y = max(-1, min(1, error_y / cy)) 
 
     if abs(error_x) > threshold:
         # Error is within threshold, stop rotating
@@ -46,7 +48,25 @@ def rotate_robot(error_x, error_y):
             "R2": 0,
             "ly": 0,
             "lx": 0,
-            "rx": twist,
+            "rx": twist_x,
+            "message_rate": 60,
+            "ry": 0,
+            "dpady": 0,
+            "dpadx": 0
+        })
+    if abs(error_y) > threshold:
+        # Error is within threshold, stop rotating
+        drive_pub.send({
+            "L1": 0,
+            "R1": 0,
+            "x": 0,
+            "circle": 0,
+            "triangle": 0,
+            "L2": 0,
+            "R2": 0,
+            "ly": 0,
+            "lx": 0,
+            "rx": twist_y,
             "message_rate": 60,
             "ry": 0,
             "dpady": 0,
