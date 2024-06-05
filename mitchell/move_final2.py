@@ -127,8 +127,10 @@ def main():
         error_x, error_y = cam_error(cam_x,cam_y)
 
         if z >= throw_distance:
+            time.sleep(0.1)
             trot()
             time.sleep(0.1)
+            
             if abs(error_x) >= 30:
                 twist_robot(error_x,error_y,z,2)
             else:
