@@ -2,6 +2,7 @@ import cv2
 import pyapriltags
 import numpy as np
 from statistics import median
+from UDPComms import Publisher
 import time
 
 # Camera parameters (these values should be calibrated for your specific camera)
@@ -22,6 +23,22 @@ dot_distance = -0.14
 # Number of coordinates to store for median filtering
 num_coords = 5
 coords_buffer = []
+
+# UDP Publisher
+drive_pub = Publisher(8830)
+
+def rotate_robot_analog(error_x, threshold=20, max_speed=500):
+    """Rotate the robot based on the x-axis error using analog input."""
+    if abs(error_x) < threshold:
+        # Error is within threshold, stop rotating
+        drive_pub.send({'f': 0, 't': 0})
+    else:
+        twist = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range
+        out = {'f': 0, 't': -max_speed * twist}
+        drive_pub.send(out)
+        print(out)
+
+
 
 def main(camera_index=0):
     global coords_buffer
@@ -93,8 +110,11 @@ def main(camera_index=0):
             x = (fx * median_x / median_z) + cx
             y = (fy * median_y / median_z) + cy
 
-            # Draw the dot on the frame
-            cv2.circle(frame, (int(x), int(y)), 5, (0, 0, 255), -1)  # Red dot
+            # Calculate the error between the dot's x-coordinate and the center of the image
+            error_x = x - cx
+
+            # Rotate the robot based on the error
+            rotate_robot_analog(error_x)
         
         elapsed_time = time.time() - start_time  # Calculate how long the function took
         sleep_time = interval - elapsed_time  # Calculate the remaining time to sleep
