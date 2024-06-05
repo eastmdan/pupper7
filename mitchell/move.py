@@ -171,7 +171,7 @@ def main(camera_index=0):
             # Calculate the error between the dot's coordinates and the center of the image
             error_x = cx - x
             error_y = cy - y
-            print(error_x, error_y)
+            print(error_x, error_y, median_z)
 
             # Rotate the robot based on the error
             rotate_robot(error_x, error_y)
