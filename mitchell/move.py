@@ -76,7 +76,7 @@ def rotate_robot(error_x, error_y, threshold=20):
             "R2": 0,
             "ly": 0,
             "lx": 0,
-            "rx": twist_x,
+            "rx": -twist_x,
             "message_rate": 60,
             "ry": twist_y,
             "dpady": 0,
