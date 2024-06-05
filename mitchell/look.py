@@ -3,8 +3,8 @@ import pyapriltags
 import numpy as np
 from statistics import median
 import time
-from threading import Thread, Lock
 from UDPComms import Publisher
+from move import move_robot
 from movement import init,activate,trot,move,rotate
 
 
@@ -25,89 +25,43 @@ tag_size = 0.136  # Example: 10 cm
 
 # Distance to place the dot behind the AprilTag (6 inches = 0.1524 meters)
 dot_distance = -0.14
-throw_distance = 1. # m away form the box the robot will throw
+
 
 # Number of coordinates to store for median filtering
 num_coords = 1
 coords_buffer = []
+error_store = []
 
-# UDP Publisher
-drive_pub = Publisher(8830)
 
 # Set the refresh rate
-refresh_rate = 30
+refresh_rate = 15
 interval = 1. / refresh_rate
-threshold = 5
 
 # Global variables for frame capture
 frame = None
-frame_lock = Lock()
+
 
 def capture_frames(camera_index=0):
     global frame
     cap = cv2.VideoCapture(camera_index)
+    try:
+        # Set the resolution
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-    # Set the resolution
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        # Disable autofocus and set manual focus if needed
+        #cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+        #cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
 
-    # Disable autofocus and set manual focus if needed
-    #cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    #cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
-
-    while True:
-        ret, new_frame = cap.read()
-        if ret:
-            with frame_lock:
-                frame = new_frame.copy()
-                
-                
-                
-def move_robot(error_x, error_y, z_distance):
-    """Move the robot towards the projected dot until a certain distance."""
-    
-    # movement parameters
-    duration = 0.5
-    scaling_factor = 0.5
-    
-    # calculate forward and lateral movements
-    lateral_error_normalized = (error_x / cx)  # Normalized to -1 to 1
-    forward_error_normalized = (z_distance - throw_distance) / throw_distance  # Normalized to -1 to 1
-
-    # amrp the speeds
-    lateral = max(-1, min(1, scaling_factor * lateral_error_normalized))
-    forward = max(-1, min(1, scaling_factor * forward_error_normalized))  
-
-    if abs(z_distance - threshold) > 0:  # If distance is off by more than 1 m, send movement command
-        move(forward, lateral, duration)
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                raise ValueError("Failed to capture frame from camera.")
+            time.sleep(interval)  # Consider adjusting based on actual needs
+    finally:
+        cap.release()
 
 
-
-def rotate_robot(error_x, error_y):
-    """Rotate the robot based on x and y errors."""
-    twist_x = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range
-    twist_y = max(-1, min(1, error_y / cy))  # Normalize error to -1 to 1 range
-
-    if abs(error_x) > threshold or abs(error_y) > threshold:
-        # If either error is above the threshold, send movement command
-        rotate(twist_x,twist_y,0.5)
-        
-        """ drive_pub.send({
-            "L1": 0,
-            "R1": 0,
-            "x": 0,
-            "circle": 0,
-            "triangle": 0,
-            "L2": 0,
-            "R2": 0,
-            "ly": 0,
-            "lx": 0,
-            "rx": -twist_x/2,
-            "message_rate": 60,
-            "ry": twist_y/2,
-            "dpady": 0,
-            "dpadx": 0
-        }) """
 
 
 def main(camera_index=0):
@@ -116,11 +70,14 @@ def main(camera_index=0):
     init()
     time.sleep(0.5)
     activate()
+    time.sleep(0.5)
+    trot()
     
-    # Start frame capture in a separate thread
-    capture_thread = Thread(target=capture_frames, args=(camera_index,))
-    capture_thread.daemon = True
-    capture_thread.start()
+    # Start the robot movement
+    move_robot(error_store)
+    
+    # Start frame capture
+    capture_frames(camera_index)
 
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
@@ -128,8 +85,7 @@ def main(camera_index=0):
     while True:
         start_time = time.time()
 
-        with frame_lock:
-            current_frame = frame.copy() if frame is not None else None
+        current_frame = frame.copy() if frame is not None else None
 
         if current_frame is None:
             time.sleep(0.001)
@@ -183,10 +139,13 @@ def main(camera_index=0):
             # Calculate the error between the dot's coordinates and the center of the image
             error_x = cx - x
             error_y = cy - y
-            print(error_x, error_y, dot_z)
+            
+            
+            error_store = (error_x, error_y, dot_z)
+            print(error_store)
 
             # Rotate the robot based on the error
-            move_robot(error_x, error_y, dot_z)
+            #move_robot(error_x, error_y, dot_z)
         
         elapsed_time = time.time() - start_time  # Calculate how long the function took
         sleep_time = interval - elapsed_time  # Calculate the remaining time to sleep
