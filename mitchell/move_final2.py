@@ -2,7 +2,7 @@ import cv2
 import pyapriltags
 import numpy as np
 import time
-from move import move_robot
+from move_final1 import move_robot
 
 
 # Set the resolution
@@ -118,7 +118,7 @@ def main():
 
     global coords_buffer
 
-    for x in range(3):
+    for x in range(10):
         x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
 
         error_x, error_y = cam_error(cam_x,cam_y)
