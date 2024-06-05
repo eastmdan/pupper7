@@ -69,7 +69,7 @@ def move(forward, lateral, duration):
     time.sleep(0.3)
     print('Moving Forward')
 
-    ramp_duration = 2  # time to accel to full speed
+    ramp_duration = 3  # time to accel to full speed
     start_time = time.time()
 
     # Loop until duration has passed
@@ -114,7 +114,7 @@ def rotate(forward, lateral, duration):
     time.sleep(0.3)
     print('Moving Forward')
 
-    ramp_duration = 2  # time to accel to full speed
+    ramp_duration = 3  # time to accel to full speed
     start_time = time.time()
 
     # Loop until duration has passed
