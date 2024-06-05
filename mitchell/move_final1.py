@@ -10,8 +10,6 @@ height = 360
 cx = width/2  # Principal point x-coordinate in pixels
 cy = height/2  # Principal point y-coordinate in pixels
 
-throw_distance = 1. # m away form the box the robot will throw
-
 
 # UDP Publisher
 drive_pub = Publisher(8830)
@@ -21,65 +19,55 @@ def move_robot(error_x, error_y, z_distance, duration):
     """Move the robot based on continuously updated errors until a certain distance is reached."""
     
     scaling_factor = 0.5 #scaling of movement speeds
-    throw_distance = 0.25  # distance for launch
     
     # start trotting
     trot()
     time.sleep(0.3)
 
-    while True:
+    # Calculate normalized forward and lateral movements
+    lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
+
+    # Clamp the speeds within [-1, 1]
+    lateral = max(-1, min(1, scaling_factor * lateral_error_normalized))
+    forward = max(-1, min(1, scaling_factor * z_distance))
+
+    ramp_duration = 1  # Time to accelerate to full speed
+    start_time = time.time()
     
-        # Calculate normalized forward and lateral movements
-        lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
-        forward_error_normalized = (z_distance - throw_distance) / throw_distance  # Normalized to -1 to 1
 
-        # Clamp the speeds within [-1, 1]
-        lateral = max(-1, min(1, scaling_factor * lateral_error_normalized))
-        forward = max(-1, min(1, scaling_factor * forward_error_normalized))
+    # Loop until the duration has passed
+    while (time.time() - start_time) < duration:
+        elapsed_time = time.time() - start_time
 
-        if abs(z_distance - throw_distance) >= 0:  # Movement command condition
+        # Ramp up speed
+        if elapsed_time < ramp_duration:
+            ly = elapsed_time / ramp_duration
+            lx = elapsed_time / ramp_duration
+        else:
+            ly = 1
+            lx = 1
 
-            ramp_duration = 1  # Time to accelerate to full speed
-            start_time = time.time()
+        drive_pub.send({
+                "L1": 0, 
+                "R1": 0, 
+                "x": 0, 
+                "circle": 0, 
+                "triangle": 0, 
+                "L2": 0, 
+                "R2": 0, 
+                "ly": forward * ly, 
+                "lx": lateral * lx, 
+                "rx": 0, 
+                "message_rate": 60, 
+                "ry": 0, 
+                "dpady": 0, 
+                "dpadx": 0
+            })
 
-            # Loop until the duration has passed
-            while (time.time() - start_time) < duration:
-                elapsed_time = time.time() - start_time
-
-                # Ramp up speed
-                if elapsed_time < ramp_duration:
-                    ly = elapsed_time / ramp_duration
-                    lx = elapsed_time / ramp_duration
-                else:
-                    ly = 1
-                    lx = 1
-
-                drive_pub.send({
-                        "L1": 0, 
-                        "R1": 0, 
-                        "x": 0, 
-                        "circle": 0, 
-                        "triangle": 0, 
-                        "L2": 0, 
-                        "R2": 0, 
-                        "ly": forward * ly, 
-                        "lx": lateral * lx, 
-                        "rx": 0, 
-                        "message_rate": 60, 
-                        "ry": 0, 
-                        "dpady": 0, 
-                        "dpadx": 0
-                    })
-
-                time.sleep(0.35)  # Sleep time based on message rate 0.016
-            
-            # stop trotting so camera can take another measurement
-            trot()
-            
-
-        # Condition to exit loop (if required)
-        else:   # If z-distance is within range, stop function
-            break
+        time.sleep(0.35)  # Sleep time based on message rate 0.016
+    
+    # stop trotting so camera can take another measurement
+    trot()
 
 
 init()
