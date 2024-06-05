@@ -32,9 +32,10 @@ dot_distance = -0.14
 num_coords = 1
 coords_buffer = []
 error_store = []
+error_store_lock = Lock()
 
 # Set the refresh rate
-refresh_rate = 30
+refresh_rate = 15
 interval = 1. / refresh_rate
 
 # Global variables for frame capture
@@ -58,91 +59,7 @@ def capture_frames(camera_index=0):
         if ret:
             with frame_lock:
                 frame = new_frame.copy()
-                
-                
-                
-""" def move_robot(error_x, error_y, z_distance):
-    # Move the robot towards the projected dot until a certain distance
-    
-    # movement parameters
-    duration = 0.5
-    scaling_factor = 0.5
-    
-    # calculate forward and lateral movements
-    lateral_error_normalized = (error_x / cx)  # Normalized to -1 to 1
-    forward_error_normalized = (z_distance - throw_distance) / throw_distance  # Normalized to -1 to 1
 
-    # ramrp the speeds
-    lateral = max(-1, min(1, scaling_factor * lateral_error_normalized))
-    forward = max(-1, min(1, scaling_factor * forward_error_normalized))  
-
-    if abs(z_distance - threshold) > 0:  # If distance is off by more than 1 m, send movement command
-            trot()  # Start trotting
-            time.sleep(0.15)
-
-            ramp_duration = 1  # time to accel to full speed
-            start_time = time.time()
-
-            # Loop until duration has passed
-            while (time.time() - start_time) < duration:
-                elapsed_time = time.time() - start_time
-                
-                # ramp up speed
-                if elapsed_time < ramp_duration:
-                    ly = elapsed_time / ramp_duration  
-                    lx = elapsed_time / ramp_duration
-                else:
-                    # set to full speed after 2 seconds
-                    ly = 1
-                    lx = 1
-
-                drive_pub.send({
-                    "L1": 0,
-                    "R1": 0,
-                    "x": 0,
-                    "circle": 0,
-                    "triangle": 0,
-                    "L2": 0,
-                    "R2": 0,
-                    "ly": forward*ly,
-                    "lx": lateral*lx,
-                    "rx": 0,
-                    "message_rate": 60,
-                    "ry": 0,
-                    "dpady": 0,
-                    "dpadx": 0
-                })
-
-                time.sleep(0.016) # 0.016 based on message rate
-            trot()  # Stop trotting
-
-
-
-def rotate_robot(error_x, error_y):
-    # Rotate the robot based on x and y errors
-    twist_x = max(-1, min(1, error_x / cx))  # Normalize error to -1 to 1 range
-    twist_y = max(-1, min(1, error_y / cy))  # Normalize error to -1 to 1 range
-
-    if abs(error_x) > threshold or abs(error_y) > threshold:
-        # If either error is above the threshold, send movement command
-        rotate(twist_x,twist_y,0.5)
-        
-        drive_pub.send({
-            "L1": 0,
-            "R1": 0,
-            "x": 0,
-            "circle": 0,
-            "triangle": 0,
-            "L2": 0,
-            "R2": 0,
-            "ly": 0,
-            "lx": 0,
-            "rx": -twist_x/2,
-            "message_rate": 60,
-            "ry": twist_y/2,
-            "dpady": 0,
-            "dpadx": 0
-        }) """
 
 
 def main(camera_index=0):
@@ -152,7 +69,11 @@ def main(camera_index=0):
     time.sleep(0.5)
     activate()
     time.sleep(0.5)
-    move_robot(error_store)
+    
+    # Start the robot movement in a separate thread
+    robot_thread = Thread(target=move_robot)
+    robot_thread.daemon = True
+    robot_thread.start()
     
     # Start frame capture in a separate thread
     capture_thread = Thread(target=capture_frames, args=(camera_index,))
@@ -220,8 +141,11 @@ def main(camera_index=0):
             # Calculate the error between the dot's coordinates and the center of the image
             error_x = cx - x
             error_y = cy - y
-            error_store.append((error_x, error_y, dot_z))
-            print(error_store[0])
+            
+            while True:
+                with error_store_lock:
+                    error_store.append((error_x, error_y, dot_z))
+                    print(error_store[0])
 
             # Rotate the robot based on the error
             #move_robot(error_x, error_y, dot_z)
