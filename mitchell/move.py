@@ -31,7 +31,7 @@ throw_distance = 1. # m away form the box the robot will throw
 drive_pub = Publisher(8830)
 
 
-def move_robot(error_store):
+def move_robot(error_store, error_store_lock):
     """Move the robot based on continuously updated errors until a certain distance is reached."""
 
     # Movement parameters
@@ -40,7 +40,12 @@ def move_robot(error_store):
     throw_distance = 1  # distance for launch
 
     while True:
-        error_x, error_y, z_distance = error_store  # Read latest error values
+    
+        with error_store_lock:
+            if not error_store:  # Check if the store is empty
+                continue  # You might want to sleep here to avoid tight looping
+            error_x, error_y, z_distance = error_store.pop(0) 
+            
 
         # Calculate normalized forward and lateral movements
         lateral_error_normalized = error_x / cx  # Normalized to -1 to 1

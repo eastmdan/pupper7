@@ -71,7 +71,7 @@ def main(camera_index=0):
     time.sleep(0.5)
     
     # Start the robot movement in a separate thread
-    robot_thread = Thread(target=move_robot)
+    robot_thread = Thread(target=move_robot, args=(error_store, error_store_lock))
     robot_thread.daemon = True
     robot_thread.start()
     
@@ -142,10 +142,10 @@ def main(camera_index=0):
             error_x = cx - x
             error_y = cy - y
             
-            while True:
-                with error_store_lock:
-                    error_store.append((error_x, error_y, dot_z))
-                    print(error_store[0])
+            
+            with error_store_lock:
+                error_store.append((error_x, error_y, dot_z))
+                print(error_store[0])
 
             # Rotate the robot based on the error
             #move_robot(error_x, error_y, dot_z)
