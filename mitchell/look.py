@@ -34,7 +34,7 @@ coords_buffer = []
 drive_pub = Publisher(8830)
 
 # Set the refresh rate
-refresh_rate = 15
+refresh_rate = 30
 interval = 1. / refresh_rate
 threshold = 5
 
@@ -51,8 +51,8 @@ def capture_frames(camera_index=0):
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
     # Disable autofocus and set manual focus if needed
-    cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
+    #cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+    #cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
 
     while True:
         ret, new_frame = cap.read()
