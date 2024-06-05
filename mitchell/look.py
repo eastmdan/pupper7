@@ -3,7 +3,6 @@ import pyapriltags
 import numpy as np
 from statistics import median
 import time
-from threading import Thread, Lock
 from UDPComms import Publisher
 from move import move_robot
 from movement import init,activate,trot,move,rotate
@@ -32,7 +31,7 @@ dot_distance = -0.14
 num_coords = 1
 coords_buffer = []
 error_store = []
-error_store_lock = Lock()
+
 
 # Set the refresh rate
 refresh_rate = 15
@@ -40,25 +39,28 @@ interval = 1. / refresh_rate
 
 # Global variables for frame capture
 frame = None
-frame_lock = Lock()
+
 
 def capture_frames(camera_index=0):
     global frame
     cap = cv2.VideoCapture(camera_index)
+    try:
+        # Set the resolution
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-    # Set the resolution
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        # Disable autofocus and set manual focus if needed
+        #cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+        #cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
 
-    # Disable autofocus and set manual focus if needed
-    #cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    #cap.set(cv2.CAP_PROP_FOCUS, 0)  # Adjust this value as needed
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                raise ValueError("Failed to capture frame from camera.")
+            time.sleep(interval)  # Consider adjusting based on actual needs
+    finally:
+        cap.release()
 
-    while True:
-        ret, new_frame = cap.read()
-        if ret:
-            with frame_lock:
-                frame = new_frame.copy()
 
 
 
@@ -71,15 +73,11 @@ def main(camera_index=0):
     time.sleep(0.5)
     trot()
     
-    # Start the robot movement in a separate thread
-    robot_thread = Thread(target=move_robot, args=(error_store, error_store_lock))
-    robot_thread.daemon = True
-    robot_thread.start()
+    # Start the robot movement
+    move_robot(error_store)
     
-    # Start frame capture in a separate thread
-    capture_thread = Thread(target=capture_frames, args=(camera_index,))
-    capture_thread.daemon = True
-    capture_thread.start()
+    # Start frame capture
+    capture_frames(camera_index)
 
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
@@ -87,8 +85,7 @@ def main(camera_index=0):
     while True:
         start_time = time.time()
 
-        with frame_lock:
-            current_frame = frame.copy() if frame is not None else None
+        current_frame = frame.copy() if frame is not None else None
 
         if current_frame is None:
             time.sleep(0.001)
@@ -144,9 +141,8 @@ def main(camera_index=0):
             error_y = cy - y
             
             
-            with error_store_lock:
-                error_store.append((error_x, error_y, dot_z))
-                print(error_store[0])
+            error_store = (error_x, error_y, dot_z)
+            print(error_store)
 
             # Rotate the robot based on the error
             #move_robot(error_x, error_y, dot_z)
