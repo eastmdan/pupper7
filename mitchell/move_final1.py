@@ -18,7 +18,7 @@ drive_pub = Publisher(8830)
 def move_robot(error_x, error_y, z_distance, duration):
     """Move the robot based on continuously updated errors until a certain distance is reached."""
     
-    scaling_factor = 0.5 #scaling of movement speeds
+    scaling_factor = 0.35 #scaling of movement speeds
     
     # start trotting
     trot()
