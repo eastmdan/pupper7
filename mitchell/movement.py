@@ -142,6 +142,3 @@ def rotate(forward, lateral, duration):
         })
 
         time.sleep(0.3) # 0.016 based on message rate
-
-
-activate()
