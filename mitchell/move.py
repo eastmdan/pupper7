@@ -2,6 +2,7 @@ import cv2
 import pyapriltags
 import numpy as np
 from statistics import median
+import time
 
 # Camera parameters (these values should be calibrated for your specific camera)
 fx = 600.0  # Focal length in pixels
@@ -9,6 +10,8 @@ fy = 600.0  # Focal length in pixels
 cx = 320.0  # Principal point x-coordinate in pixels
 cy = 280.0  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
+
+refresh_rate = 5
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
@@ -34,7 +37,12 @@ def main(camera_index=0):
     # Create the detector
     detector = pyapriltags.Detector(searchpath=['apriltags'], families='tag36h11')
 
+    interval = 1 / refresh_rate
+
     while True:
+
+        start_time = time.time
+
         # Capture frame-by-frame
         ret, frame = cap.read()
 
@@ -88,6 +96,14 @@ def main(camera_index=0):
 
             # Draw the dot on the frame
             cv2.circle(frame, (int(x), int(y)), 5, (0, 0, 255), -1)  # Red dot
+        
+        elapsed_time = time.time() - start_time  # Calculate how long the function took
+        sleep_time = interval - elapsed_time  # Calculate the remaining time to sleep
+
+        if sleep_time > 0:
+            time.sleep(sleep_time)  # Sleep for the remaining time
+        else:
+            print("Warning: Function execution is slower than the desired interval.")
 
 
 
