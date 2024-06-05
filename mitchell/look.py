@@ -173,5 +173,5 @@ def main(camera_index=0):
         else:
             print("Warning: Function execution is slower than the desired interval.")
 
-if __name__ == "__main__":
+if __name__ == "__main__": # change
     main(camera_index=0)  # Change the index if needed
