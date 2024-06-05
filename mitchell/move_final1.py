@@ -61,10 +61,6 @@ def move_robot(error_x, error_y, z_distance, duration):
 
         time.sleep(0.016)  # Sleep time based on message rate 0.016
     
-    time.sleep(0.1)
-    # stop trotting so camera can take another measurement
-    trot()
-    time.sleep(0.1)
     
 
 def twist_robot(error_x, error_y, z_distance, duration):
@@ -113,11 +109,7 @@ def twist_robot(error_x, error_y, z_distance, duration):
             })
 
         time.sleep(0.016)  # Sleep time based on message rate 0.016
-    
-    time.sleep(0.1)
-    # stop trotting so camera can take another measurement
-    trot()
-    time.sleep(0.1)
+
         
 
 def rotate_robot(error_x, error_y, z_distance, duration):

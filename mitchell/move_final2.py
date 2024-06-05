@@ -126,11 +126,15 @@ def main():
 
         if z > 0.5:
             trot()
-            time.sleep(0.3)
+            time.sleep(0.1)
+            
             if abs(error_x) > 50:
                 twist_robot(error_x,error_y,z,2)
             else:
                 move_robot(error_x,error_y,z,3)
+            
+            trot()
+            time.sleep(0.1)
         else:
             rotate_robot(error_x,error_y,z,2)
 
