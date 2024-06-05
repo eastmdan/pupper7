@@ -13,7 +13,7 @@ cx = 640.0  # Principal point x-coordinate in pixels
 cy = 360.0  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
 
-refresh_rate = 15.
+refresh_rate = 10.
 
 # Tag size in meters (this should match the physical size of your AprilTag)
 tag_size = 0.136  # Example: 10 cm
