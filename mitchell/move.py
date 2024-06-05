@@ -95,8 +95,8 @@ def main(camera_index=0):
     # Initialize the webcam
     cap = cv2.VideoCapture(camera_index)
 
-    cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    cap.set(cv2.CAP_PROP_FOCUS, 0) 
+    cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
+    #cap.set(cv2.CAP_PROP_FOCUS, 0) 
     cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
 
     # Check if the webcam is opened correctly
