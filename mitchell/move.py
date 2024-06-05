@@ -5,10 +5,10 @@ from statistics import median
 import time
 
 # Camera parameters (these values should be calibrated for your specific camera)
-fx = 600.0  # Focal length in pixels
-fy = 600.0  # Focal length in pixels
-cx = 320.0  # Principal point x-coordinate in pixels
-cy = 280.0  # Principal point y-coordinate in pixels
+fx = 1000.0  # Focal length in pixels
+fy = 1000.0  # Focal length in pixels
+cx = 960.0  # Principal point x-coordinate in pixels
+cy = 540.0  # Principal point y-coordinate in pixels
 camera_params = (fx, fy, cx, cy)
 
 refresh_rate = 10.
