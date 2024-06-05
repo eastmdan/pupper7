@@ -44,7 +44,6 @@ def activate():
     })
 
 def trot():
-    print('trot')
     drive_pub.send({
         "L1": 0, 
         "R1": 1, 
@@ -67,7 +66,6 @@ def move(forward, lateral, duration):
     time.sleep(0.5)
     trot()  # Start trotting
     time.sleep(0.3)
-    print('Moving Forward')
 
     ramp_duration = 3  # time to accel to full speed
     start_time = time.time()
@@ -112,7 +110,6 @@ def rotate(forward, lateral, duration):
     time.sleep(0.5)
     trot()  # Start trotting
     time.sleep(0.3)
-    print('Moving Forward')
 
     ramp_duration = 3  # time to accel to full speed
     start_time = time.time()
