@@ -122,6 +122,8 @@ def main():
     time.sleep(0.3)
 
     global coords_buffer
+    
+    stop_trot = False
 
     for x in range(20):
         x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
@@ -133,9 +135,12 @@ def main():
             move_robot(error_x,error_y,z,3)
             
         else:
-            time.sleep(1)
-            trot()
-            time.sleep(1)
+            if stop_trot is False:
+                time.sleep(1)
+                trot()
+                stop_trot = True
+                time.sleep(1)
+            
             rotate_robot(error_x,error_y,z,2)
 
         
