@@ -28,7 +28,6 @@ throw_distance = 2 # m
 num_coords = 10
 coords_buffer = []
 
-stop_trot = False
 
 def cam_coords(camera_index=0):
     # Initialize the webcam
@@ -124,6 +123,8 @@ def main():
     time.sleep(0.3)
 
     global coords_buffer
+    
+    stop_trot = False
 
     for x in range(20):
         x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
