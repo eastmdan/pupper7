@@ -126,7 +126,7 @@ def main():
     
     stop_trot = False
 
-    for x in range(20):
+    for _ in range(20):
         x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
 
         error_x, error_y = cam_error(cam_x,cam_y)
