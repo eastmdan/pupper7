@@ -22,7 +22,7 @@ tag_size = 0.136  # Example: 10 cm
 # Distance to place the dot behind the AprilTag (6 inches = 0.1524 meters)
 dot_distance = -0.14
 
-throw_distance = 0.5 # m
+throw_distance = 2 # m
 
 # Number of coordinates to store for median filtering
 num_coords = 10
@@ -123,16 +123,16 @@ def main():
 
     global coords_buffer
 
-    for x in range(10):
+    for x in range(20):
         x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
 
         error_x, error_y = cam_error(cam_x,cam_y)
 
-        if z >= throw_distance:
+        if z > throw_distance:
             
             move_robot(error_x,error_y,z,3)
             
-        elif z < throw_distance:
+        else:
             time.sleep(1)
             trot()
             time.sleep(1)
