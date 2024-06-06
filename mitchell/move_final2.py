@@ -133,6 +133,7 @@ def main():
             move_robot(error_x,error_y,z,3)
             
         elif z < throw_distance:
+            time.sleep(1)
             trot()
             time.sleep(1)
             rotate_robot(error_x,error_y,z,2)
