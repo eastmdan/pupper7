@@ -63,7 +63,7 @@ def cam_coords(camera_index=0, max_frames=100):
         # Process each detection
         if detections:
             for detection in detections:
-                corners = detection.corners.astype(int)
+                #corners = detection.corners.astype(int)
                 
                 # Get the pose estimation
                 pose_R = detection.pose_R
