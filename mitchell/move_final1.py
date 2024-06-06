@@ -107,7 +107,7 @@ def twist_robot(error_x, error_y, z_distance, duration):
                 "triangle": 0, 
                 "L2": 0, 
                 "R2": 0, 
-                "ly": 0.1, 
+                "ly": 0, 
                 "lx": 0, 
                 "rx": lateral * rx, 
                 "message_rate": refresh, 
