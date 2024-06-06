@@ -4,7 +4,7 @@ from movement import init,activate,trot,clear
 
 
 refresh = 20 # Time to sleep inbetween individual movements
-move_speed = 0.45 # scaler to change how quickly the robot performs actions
+move_speed = 0.4 # scaler to change how quickly the robot performs actions
 
 
 
@@ -28,7 +28,7 @@ def move_robot(error_x, error_y, z_distance, duration):
     lateral_error_normalized = error_x / cx  # Normalized to -1 to 1
 
     # Clamp the speeds within [-1, 1]
-    lateral = max(-1, min(1, scaling_factor * lateral_error_normalized * 0.35))
+    lateral = max(-1, min(1, scaling_factor * lateral_error_normalized * 0.4))
     forward = max(-1, min(1, scaling_factor * z_distance))
 
     ramp_duration = 1  # Time to accelerate to full speed
