@@ -3,8 +3,8 @@ from UDPComms import Publisher
 from movement import init,activate,trot,clear
 
 
-refresh = 20 # Time to sleep inbetween individual movements
-move_speed = 0.4 # scaler to change how quickly the robot performs actions
+refresh = 0.3 # Time to sleep inbetween individual movements
+move_speed = 0.3 # scaler to change how quickly the robot performs actions
 
 
 
@@ -21,6 +21,10 @@ drive_pub = Publisher(8830)
 
 
 def move_robot(error_x, error_y, z_distance, duration):
+    
+    time.sleep(1)
+    trot()
+    time.sleep(1)
     
     scaling_factor = move_speed #scaling of movement speeds
 
@@ -42,10 +46,10 @@ def move_robot(error_x, error_y, z_distance, duration):
         # Ramp up speed
         if elapsed_time < ramp_duration:
             ly = elapsed_time / ramp_duration
-            rx = elapsed_time / ramp_duration
+            lx = elapsed_time / ramp_duration
         else:
             ly = 1
-            rx = 1
+            lx = 1
 
         drive_pub.send({
                 "L1": 0, 
@@ -57,7 +61,7 @@ def move_robot(error_x, error_y, z_distance, duration):
                 "R2": 0, 
                 "ly": forward * ly, 
                 "lx": 0, 
-                "rx": lateral * rx, 
+                "rx": 0, 
                 "message_rate": refresh, 
                 "ry": 0, 
                 "dpady": 0, 
@@ -65,13 +69,20 @@ def move_robot(error_x, error_y, z_distance, duration):
             })
 
         time.sleep(1/refresh)
+    
+    time.sleep(1)
+    trot()
+    time.sleep(1)
         
-    #clear()
+    clear()
     
     
 
 def twist_robot(error_x, error_y, z_distance, duration):
     
+    time.sleep(1)
+    trot()
+    time.sleep(1)
     
     scaling_factor = move_speed #scaling of movement speeds
 
@@ -117,8 +128,12 @@ def twist_robot(error_x, error_y, z_distance, duration):
             })
 
         time.sleep(1/refresh)
+    
+    time.sleep(1)
+    trot()
+    time.sleep(1)
         
-    #clear()
+    clear()
 
         
 
@@ -168,4 +183,4 @@ def rotate_robot(error_x, error_y, z_distance, duration):
 
         time.sleep(1/refresh)  
     
-    #clear()
+    clear()
