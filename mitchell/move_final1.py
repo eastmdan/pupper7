@@ -124,7 +124,7 @@ def twist_robot(error_x, error_y, z_distance, duration):
 
 def rotate_robot(error_x, error_y, z_distance, duration):
     
-    scaling_factor = move_speed #scaling of movement speeds
+    scaling_factor = move_speed*.75 #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
     lateral_error_x_normalized = error_x / cx  # Normalized to -1 to 1
