@@ -143,7 +143,7 @@ def main():
                 stop_trot = True
                 time.sleep(1)
             
-            rotate_robot(error_x-10,error_y,z,2)
+            rotate_robot(error_x+15,error_y,z,2)
 
             os.system("echo 2000000 > /sys/class/pwm/pwmchip0/pwm3/duty_cycle")
             time.sleep(0.5)
