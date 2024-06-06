@@ -4,7 +4,7 @@ from movement import init,activate,trot,clear
 
 
 refresh = 20 # Time to sleep inbetween individual movements
-move_speed = 0.4 # scaler to change how quickly the robot performs actions
+move_speed = 0.5 # scaler to change how quickly the robot performs actions
 
 
 

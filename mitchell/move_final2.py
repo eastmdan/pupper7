@@ -131,11 +131,11 @@ def main():
         error_x, error_y = cam_error(cam_x,cam_y)
 
         if z > throw_distance:
-            
-            move_robot(error_x,error_y,z,3)
+            move_robot(error_x,error_y,z,2.5)
             
         else:
-            if stop_trot is False:
+            if stop_trot == False:
+                print('stop the trot')
                 time.sleep(1)
                 trot()
                 stop_trot = True
