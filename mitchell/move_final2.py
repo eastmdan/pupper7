@@ -28,6 +28,8 @@ throw_distance = 2 # m
 num_coords = 10
 coords_buffer = []
 
+stop_trot = False
+
 def cam_coords(camera_index=0):
     # Initialize the webcam
     print("turning cam on")
@@ -122,8 +124,6 @@ def main():
     time.sleep(0.3)
 
     global coords_buffer
-    
-    stop_trot = False
 
     for x in range(20):
         x,y,z,cam_x,cam_y = cam_coords(camera_index=0)
@@ -134,7 +134,7 @@ def main():
             move_robot(error_x,error_y,z,2.5)
             
         else:
-            if stop_trot == False:
+            if not stop_trot:
                 print('stop the trot')
                 time.sleep(1)
                 trot()
