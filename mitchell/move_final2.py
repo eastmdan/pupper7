@@ -23,7 +23,7 @@ tag_size = 0.136  # Example: 10 cm
 # Distance to place the dot behind the AprilTag (6 inches = 0.1524 meters)
 dot_distance = -0.14
 
-throw_distance = 2.7 # m
+throw_distance = 2.65 # m
 
 # Number of coordinates to store for median filtering
 num_coords = 10
@@ -143,7 +143,7 @@ def main():
                 stop_trot = True
                 time.sleep(1)
             
-            rotate_robot(error_x-18,error_y,z,2)
+            rotate_robot(error_x-22,error_y,z,2)
 
             os.system("echo 2000000 > /sys/class/pwm/pwmchip0/pwm3/duty_cycle")
             time.sleep(0.5)
