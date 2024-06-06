@@ -99,15 +99,15 @@ def cam_coords(camera_index=0, max_frames=100):
                     cam_y = (fy * avg_y / avg_z) + cy
 
                     # Print or return the average coordinates
-                    print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
+                    #print(f"Average coordinates: x={avg_x}, y={avg_y}, z={avg_z}, cam x={cam_x}, cam y={cam_y}")
                     cap.release()
-                    print("cam off")
+                    #print("cam off")
                     return avg_x, avg_y, avg_z, cam_x, cam_y
 
         frames_processed += 1
 
     cap.release()
-    print("cam off - no AprilTag detected")
+    #print("cam off - no AprilTag detected")
     return None
 
 # Example usage:
@@ -139,6 +139,7 @@ def main():
 
     for _ in range(10):  # Use underscore if 'x' is not used in the loop
         coordinates = cam_coords(camera_index=0)
+        print(coordinates)
         if coordinates is None:  # Check if cam_coords returned None
             rotate_robot(90, 0, 0, 3)  # Arbitrary twist to scan
             coordinates = cam_coords(camera_index=0)

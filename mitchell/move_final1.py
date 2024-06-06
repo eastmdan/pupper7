@@ -22,6 +22,10 @@ drive_pub = Publisher(8830)
 
 def move_robot(error_x, error_y, z_distance, duration):
     
+    time.sleep(1)
+    trot()
+    time.sleep(1)
+    
     scaling_factor = move_speed #scaling of movement speeds
 
     # Calculate normalized forward and lateral movements
@@ -65,12 +69,20 @@ def move_robot(error_x, error_y, z_distance, duration):
             })
 
         time.sleep(1/refresh)
+    
+    time.sleep(1)
+    trot()
+    time.sleep(1)
         
     clear()
     
     
 
 def twist_robot(error_x, error_y, z_distance, duration):
+    
+    time.sleep(1)
+    trot()
+    time.sleep(1)
     
     scaling_factor = move_speed #scaling of movement speeds
 
@@ -116,6 +128,10 @@ def twist_robot(error_x, error_y, z_distance, duration):
             })
 
         time.sleep(1/refresh)
+    
+    time.sleep(1)
+    trot()
+    time.sleep(1)
         
     clear()
 
