@@ -23,7 +23,7 @@ tag_size = 0.136  # Example: 10 cm
 # Distance to place the dot behind the AprilTag (6 inches = 0.1524 meters)
 dot_distance = -0.14
 
-throw_distance = 2 # m
+throw_distance = 2.5 # m
 
 # Number of coordinates to store for median filtering
 num_coords = 10
