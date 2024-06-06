@@ -108,7 +108,7 @@ def cam_coords(camera_index=0, max_frames=100):
 
     cap.release()
     print("cam off - no AprilTag detected")
-    return None, "No AprilTag detected within the given frames"
+    return None
 
 # Example usage:
 # coordinates, message = cam_coords()
