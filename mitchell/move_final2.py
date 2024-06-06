@@ -144,6 +144,10 @@ def main():
             
             rotate_robot(error_x,error_y,z,2)
 
+            os.system("echo 2000000 > /sys/class/pwm/pwmchip0/pwm3/duty_cycle")
+            time.sleep(0.5)
+            os.system("echo 500000 > /sys/class/pwm/pwmchip0/pwm3/duty_cycle")
+
         
     
 
